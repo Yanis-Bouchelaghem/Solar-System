@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Window.h"
+#include "ShaderProgram.h"
 
 class Game
 {
@@ -15,4 +16,5 @@ private:
 private:
 	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 	Window window;
+	ShaderProgram shaderProgram;
 };
