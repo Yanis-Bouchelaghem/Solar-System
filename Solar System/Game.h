@@ -14,8 +14,8 @@ public:
 	Game& operator=(const Game& other) = delete;
 	~Game() noexcept;
 
-	void Tick();
-	bool ShouldClose() const;
+	void Tick();				//Updates the game and draws a frame.
+	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:
 	void Update();
 	void Draw();
