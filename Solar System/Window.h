@@ -13,6 +13,7 @@ public:
 	Window& operator=(const Window& other) = delete;
 	~Window() noexcept;
 
+	void ClearBuffers() const;	//Clears the color and depth buffers.
 	void SwapBuffers() const;	//Swaps the buffers to display the frame.
 	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:

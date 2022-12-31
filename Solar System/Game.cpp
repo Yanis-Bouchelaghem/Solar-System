@@ -11,7 +11,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
 
 void Game::Tick()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clear the current buffer before drawing.
+    window.ClearBuffers();
     Update();
     Draw();
     window.SwapBuffers();	//Swap the current buffer to display it.
