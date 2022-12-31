@@ -40,3 +40,9 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
     glfwSetFramebufferSizeCallback(window.get(),
         [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); });
 }
+
+Game::~Game() noexcept
+{
+    window.reset();		//Release and safely destroy the window (via the unique pointer deleter).
+    glfwTerminate();
+}

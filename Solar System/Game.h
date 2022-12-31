@@ -9,6 +9,10 @@ class Game
 {
 public:
 	Game(int width, int height, const std::string title, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+	Game(const Game& other) = delete;
+	Game& operator=(const Game& other) = delete;
+	~Game() noexcept;
+
 private:
 	//The window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
 	//it and automatically destroy it using a custom deleter. Preventing any potential memory leaks.
