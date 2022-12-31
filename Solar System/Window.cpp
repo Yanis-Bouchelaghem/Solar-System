@@ -34,6 +34,9 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
     //Set the background clear color.
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    //Enable depth to allow us to remove hidden parts.
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     //Set the window resize callback function
     glfwSetFramebufferSizeCallback(window.get(),
         [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); });

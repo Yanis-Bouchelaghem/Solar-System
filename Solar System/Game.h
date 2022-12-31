@@ -2,6 +2,8 @@
 #include <string>
 #include "Window.h"
 #include "ShaderProgram.h"
+#include "glm/glm.hpp"
+#include "Actor.h"
 
 //A class that represents the simulation and handles the logic/render loop.
 class Game
@@ -18,4 +20,12 @@ private:
 	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 	Window window;
 	ShaderProgram shaderProgram;
+	Actor monkey;
+
+	glm::mat4 Model;
+	//Camera
+	glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 camDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 camUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	static constexpr float camSpeed = 0.005f;
 };

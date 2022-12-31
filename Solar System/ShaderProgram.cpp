@@ -12,10 +12,9 @@ ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentS
     std::string fragmentCode;
     std::ifstream vertexShaderFile;
     std::ifstream fragmentShaderFile;
-    //Ensure ifstream objects can throw exceptions:
+    //Ensure ifstream objects can throw exceptions.
     vertexShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     fragmentShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
     //Read file's buffer contents into streams.
     vertexShaderFile.open(vertexShaderPath);
     fragmentShaderFile.open(fragmentShaderPath);
@@ -29,7 +28,6 @@ ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentS
     fragmentCode = fShaderStream.str();
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
-
     //2. Compile shaders.
     unsigned int vertex, fragment;
     int success;
