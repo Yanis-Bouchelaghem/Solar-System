@@ -2,12 +2,15 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
+#include "objload.h"
 
 Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag")
 {
+    loadOBJ("..\\Resources\\Objects\\cube.obj", vertexPositions, textureCoordinates, normals);
+
 }
 
 void Game::Tick()

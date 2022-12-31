@@ -2,7 +2,7 @@
 #include <string>
 #include "Window.h"
 #include "ShaderProgram.h"
-
+#include "glm/glm.hpp"
 //A class that represents the simulation and handles the logic/render loop.
 class Game
 {
@@ -18,4 +18,8 @@ private:
 	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 	Window window;
 	ShaderProgram shaderProgram;
+
+	std::vector<glm::vec3> vertexPositions;
+	std::vector<glm::vec2> textureCoordinates;
+	std::vector<glm::vec3> normals;
 };
