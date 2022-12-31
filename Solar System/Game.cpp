@@ -7,6 +7,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(nullptr, [](GLFWwindow* window) { glfwDestroyWindow(window); }) //Set the deleter for the managed window.
+
 {
     //Initialize GLFW.
     glfwInit();
