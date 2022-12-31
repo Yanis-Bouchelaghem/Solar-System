@@ -13,6 +13,11 @@ public:
 	Game& operator=(const Game& other) = delete;
 	~Game() noexcept;
 
+	void Tick();
+	bool ShouldClose() const;
+private:
+	void Update();
+	void Draw();
 private:
 	//The window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
 	//it and automatically destroy it using a custom deleter. Preventing any potential memory leaks.

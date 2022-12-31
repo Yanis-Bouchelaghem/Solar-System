@@ -15,7 +15,6 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
     #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
-
     //Create a window and set its context to the current thread.
     window.reset(glfwCreateWindow(width, height, title.c_str(), monitor, share));
     if (window == nullptr)
@@ -25,7 +24,6 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window.get());
-
     //Get the openGL functions addresses using GLAD.
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -38,11 +36,35 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     //Set the window resize callback function
     glfwSetFramebufferSizeCallback(window.get(),
-        [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); });
+        [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height);});
 }
 
 Game::~Game() noexcept
 {
     window.reset();		//Release and safely destroy the window (via the unique pointer deleter).
     glfwTerminate();
+}
+
+void Game::Tick()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//Clear the current buffer before drawing.
+    Update();
+    Draw();
+    glfwSwapBuffers(window.get());	//Swap the current buffer to display it.
+    glfwPollEvents();
+}
+
+bool Game::ShouldClose() const
+{
+    return glfwWindowShouldClose(window.get());
+}
+
+void Game::Update()
+{
+    //Logic goes here
+}
+
+void Game::Draw()
+{
+    //Drawing goes here
 }
