@@ -21,7 +21,6 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     if (window == nullptr)
     {
         std::cout << "Failed to init GLFW.\n";
-        glfwTerminate();
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window.get());

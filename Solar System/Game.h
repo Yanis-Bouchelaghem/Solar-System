@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 
+//A class that represents the simulation and handles the logic/render loop.
 class Game
 {
 public:

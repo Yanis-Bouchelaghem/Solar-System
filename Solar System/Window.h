@@ -17,7 +17,7 @@ public:
 	void SwapBuffers() const;	//Swaps the buffers to display the frame.
 	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:
-	//The window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
+	//The GLFW window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
 	//it and automatically destroy it using a custom deleter. Preventing any potential memory leaks.
 	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
 };

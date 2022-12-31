@@ -1,5 +1,6 @@
 #pragma once
 
+//Settings that can be tweaked.
 namespace settings
 {
 	inline constexpr int windowWidth = 800;					//The width of the window.
