@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 //A class that represents the simulation and handles the logic/render loop.
 class Game
 {
@@ -22,4 +23,15 @@ private:
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec2> textureCoordinates;
 	std::vector<glm::vec3> normals;
+
+	unsigned int VAO;
+	unsigned int VBO;
+	unsigned int VBOColor;
+
+	glm::mat4 Model;
+	//Camera
+	glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 camDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 camUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	static constexpr float camSpeed = 0.005f;
 };
