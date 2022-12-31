@@ -1,9 +1,12 @@
 #include <iostream>
 #include "Game.h"
+#include "Settings.h"
 
 int main()
 {
-	Game game{ 800, 600, "Solar system"};
+	using namespace settings;
+	Game game{ windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, windowTitle };
+
 	while (!game.ShouldClose())
 	{
 		game.Tick();

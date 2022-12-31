@@ -3,7 +3,8 @@
 #include <glfw3.h>
 #include <iostream>
 
-Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
+Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight,
+    const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(nullptr, [](GLFWwindow* window) { glfwDestroyWindow(window); }) //Set the deleter for the managed window.
 {
@@ -16,7 +17,7 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
     //Create a window and set its context to the current thread.
-    window.reset(glfwCreateWindow(width, height, title.c_str(), monitor, share));
+    window.reset(glfwCreateWindow(windowWidth, windowHeight, title.c_str(), monitor, share));
     if (window == nullptr)
     {
         std::cout << "Failed to init GLFW.\n";
@@ -31,7 +32,7 @@ Game::Game(int width, int height, const std::string title, GLFWmonitor* monitor,
         exit(EXIT_FAILURE);
     }
     //Set the viewport of the window.
-    glViewport(0, 0, 800, 600);
+    glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
     //Set the background clear color.
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     //Set the window resize callback function
