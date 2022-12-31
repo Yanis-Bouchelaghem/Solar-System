@@ -10,14 +10,11 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
     monkey("..\\Resources\\Objects\\monke.obj")
 {
-    //Enable depth to allow us to remove hidden parts.
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
 }
 
 void Game::Tick()
 {
-    window.ClearBuffers();
+    window.ClearBuffers();  //Clears the color and depth buffers.
     Update();
     Draw();
     window.SwapBuffers();	//Swap the current buffer to display it.
