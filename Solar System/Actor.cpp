@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <assert.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "objload.h"
 
 Actor::Actor(const char* objectPath)
@@ -45,6 +46,31 @@ Actor::~Actor() noexcept
 	glDeleteBuffers(1, &VBOVertex);
 	glDeleteBuffers(1, &VBOTexture);
 	glDeleteBuffers(1, &VBONormals);
+}
+
+void Actor::ResetModelMatrix()
+{
+	modelMatrix = glm::mat4(1.0f);
+}
+
+void Actor::ApplyTranslation(glm::vec3 translation)
+{
+	modelMatrix = glm::translate(modelMatrix, translation);
+}
+
+void Actor::ApplyScale(glm::vec3 scale)
+{
+	modelMatrix = glm::scale(modelMatrix, scale);
+}
+
+void Actor::ApplyRotation(float degrees, glm::vec3 axis)
+{
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(degrees), axis);
+}
+
+const glm::mat4& Actor::GetModelMatrix() const
+{
+	return modelMatrix;
 }
 
 unsigned int Actor::GetVAO() const
