@@ -76,6 +76,11 @@ ShaderProgram::~ShaderProgram() noexcept
     glDeleteProgram(shaderProgramID);
 }
 
+unsigned int ShaderProgram::GetUniformID(const char* uniformName) const
+{
+    return glGetUniformLocation(shaderProgramID, uniformName);
+}
+
 unsigned int ShaderProgram::GetID() const
 {
     return shaderProgramID;

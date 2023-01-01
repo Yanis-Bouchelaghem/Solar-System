@@ -2,13 +2,13 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
-#include "objload.h"
-#include <glm/gtc/matrix_transform.hpp>
+
 Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
-    monkey("..\\Resources\\Objects\\monke.obj")
+    monkey("..\\Resources\\Objects\\monke.obj"),
+    sphere("..\\Resources\\Objects\\sphere.obj")
 {
 }
 
@@ -29,18 +29,26 @@ bool Game::ShouldClose() const
 void Game::Update()
 {
     //Logic goes here
-    Model = glm::mat4(1.0f);
-    Model = glm::translate(Model, glm::vec3(0.0f, 0.0f, 0.0f));
-    Model = glm::scale(Model, glm::vec3(0.5f, 0.5f, 0.5f));
-    Model = glm::rotate(Model, glm::radians(150.0f), glm::vec3(0.f, 1.0f, 0.0f));
-    Model = glm::rotate(Model, glm::radians(0.f), glm::vec3(1.f, 0.0f, 0.0f));
-    unsigned int matrixID = glGetUniformLocation(shaderProgram.GetID(), "Model");
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &Model[0][0]); //Send transformation shaders.
+    monkey.ResetModelMatrix();
+    monkey.ApplyTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+    monkey.ApplyScale(glm::vec3(0.2f, 0.2f, 0.2f));
+    monkey.ApplyRotation(150.0f, glm::vec3(0.f, 1.0f, 0.0f));
+
+    sphere.ResetModelMatrix();
+    sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
+    sphere.ApplyTranslation(glm::vec3(0.7f, 0.0f, 0.0f));
+    sphere.ApplyScale(glm::vec3(0.2f, 0.2f, 0.2f));
+    sphere.ApplyRotation(-float(window.GetElapsedTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
+
 }
 
 void Game::Draw()
 {
     //Drawing goes here
+    unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("Model");
     window.UseShader(shaderProgram);
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, monkey.GetModelMatrix());
     window.DrawActor(monkey);
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, sphere.GetModelMatrix());
+    window.DrawActor(sphere);
 }

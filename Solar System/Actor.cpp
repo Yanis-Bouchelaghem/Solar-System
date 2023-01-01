@@ -3,19 +3,20 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <assert.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include "objload.h"
 
 Actor::Actor(const char* objectPath)
 {
-	//Load the mesh's vertex data from disk.
+	//Load the object's vertex data from disk.
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec2> textureCoordinates;
 	std::vector<glm::vec3> normals;
 	loadOBJ(objectPath, vertexPositions, textureCoordinates, normals);
 	//Save the number of vertices.
-	vertexCount = vertexPositions.size();
+	vertexCount = (int)vertexPositions.size();
 	assert(vertexCount >= 3); //If assertion fails : Object could not be loaded or it does not contain enough vertices.
-	//Setup the buffers for this mesh.
+	//Setup the buffers for this object.
 	//VAO
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -47,12 +48,37 @@ Actor::~Actor() noexcept
 	glDeleteBuffers(1, &VBONormals);
 }
 
+void Actor::ResetModelMatrix()
+{
+	modelMatrix = glm::mat4(1.0f);
+}
+
+void Actor::ApplyTranslation(glm::vec3 translation)
+{
+	modelMatrix = glm::translate(modelMatrix, translation);
+}
+
+void Actor::ApplyScale(glm::vec3 scale)
+{
+	modelMatrix = glm::scale(modelMatrix, scale);
+}
+
+void Actor::ApplyRotation(float degrees, glm::vec3 axis)
+{
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(degrees), axis);
+}
+
+const glm::mat4& Actor::GetModelMatrix() const
+{
+	return modelMatrix;
+}
+
 unsigned int Actor::GetVAO() const
 {
 	return VAO;
 }
 
-unsigned int Actor::GetVertexCount() const
+int Actor::GetVertexCount() const
 {
 	return vertexCount;
 }

@@ -21,6 +21,5 @@ private:
 	Window window;
 	ShaderProgram shaderProgram;
 	Actor monkey;
-
-	glm::mat4 Model;
+	Actor sphere;
 };
