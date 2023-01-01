@@ -41,6 +41,6 @@ void Game::Update()
 void Game::Draw()
 {
     //Drawing goes here
-    shaderProgram.Use();
-    monkey.Draw();
+    window.UseShader(shaderProgram);
+    window.DrawActor(monkey);
 }

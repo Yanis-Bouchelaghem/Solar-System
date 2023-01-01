@@ -47,8 +47,12 @@ Actor::~Actor() noexcept
 	glDeleteBuffers(1, &VBONormals);
 }
 
-void Actor::Draw() const
+unsigned int Actor::GetVAO() const
 {
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+	return VAO;
+}
+
+unsigned int Actor::GetVertexCount() const
+{
+	return vertexCount;
 }

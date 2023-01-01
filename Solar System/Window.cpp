@@ -48,12 +48,29 @@ Window::~Window() noexcept
     glfwTerminate();
 }
 
-void Window::ClearBuffers() const
+void Window::UseShader(const ShaderProgram& shaderProgram)
+{
+    glUseProgram(shaderProgram.GetID());
+}
+
+void Window::DrawActor(const Actor& actor)
+{
+    glBindVertexArray(actor.GetVAO());
+    glDrawArrays(GL_TRIANGLES, 0, actor.GetVertexCount());
+}
+
+void Window::DrawActor(const Actor& actor, const ShaderProgram& shaderProgram)
+{
+    UseShader(shaderProgram);
+    DrawActor(actor);
+}
+
+void Window::ClearBuffers()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::SwapBuffers() const
+void Window::SwapBuffers()
 {
     glfwSwapBuffers(window.get());
 }

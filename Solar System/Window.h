@@ -2,7 +2,8 @@
 #include <string>
 #include <memory>
 #include <functional>
-
+#include "Actor.h"
+#include "ShaderProgram.h"
 //A window class that manages the OpenGL context and the GLFW window creation/destruction.
 class Window
 {
@@ -13,8 +14,11 @@ public:
 	Window& operator=(const Window& other) = delete;
 	~Window() noexcept;
 
-	void ClearBuffers() const;	//Clears the color and depth buffers.
-	void SwapBuffers() const;	//Swaps the buffers to display the frame.
+	void UseShader(const ShaderProgram& shaderProgram);	//Binds the given shader.
+	void DrawActor(const Actor& actor);	//Draws an actor with the currently bound shader.
+	void DrawActor(const Actor& actor, const ShaderProgram& shaderProgram); //Binds the given shader, then draws actor.
+	void ClearBuffers();		//Clears the color and depth buffers.
+	void SwapBuffers();			//Swaps the buffers to display the frame.
 	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:
 	//The GLFW window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage

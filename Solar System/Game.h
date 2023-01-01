@@ -23,9 +23,4 @@ private:
 	Actor monkey;
 
 	glm::mat4 Model;
-	//Camera
-	glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f);
-	glm::vec3 camDirection = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 camUp = glm::vec3(0.0f, 1.0f, 0.0f);
-	static constexpr float camSpeed = 0.005f;
 };

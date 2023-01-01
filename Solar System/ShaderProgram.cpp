@@ -76,11 +76,6 @@ ShaderProgram::~ShaderProgram() noexcept
     glDeleteProgram(shaderProgramID);
 }
 
-void ShaderProgram::Use() const
-{
-    glUseProgram(shaderProgramID);
-}
-
 unsigned int ShaderProgram::GetID() const
 {
     return shaderProgramID;

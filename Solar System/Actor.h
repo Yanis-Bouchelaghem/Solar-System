@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+//A class to represent a drawable entity in the world.
 class Actor
 {
 public:
@@ -8,7 +9,9 @@ public:
 	Actor(const Actor& other) = delete;
 	Actor& operator=(const Actor& other) = delete;
 	virtual ~Actor() noexcept;
-	void Draw() const;
+
+	unsigned int GetVAO() const;
+	unsigned int GetVertexCount() const;
 private:
 	unsigned int vertexCount;
 	//The buffers for the object.
