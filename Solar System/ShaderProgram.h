@@ -20,10 +20,16 @@ public:
 	{
 		assert(false); //Trying to send an unsupported type.
 	}
+	//Template specializations.
 	template<>
 	void SendUniform<glm::mat4>(unsigned int uniformID, const glm::mat4& value)
 	{
 		glUniformMatrix4fv(uniformID, 1, GL_FALSE, &value[0][0]);
+	}
+	template<>
+	void SendUniform<unsigned int>(unsigned int uniformID, const unsigned int& value)
+	{
+		glUniform1ui(uniformID, value);
 	}
 private:
 	unsigned int shaderProgramID;
