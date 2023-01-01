@@ -44,11 +44,11 @@ void Game::Update()
 
 void Game::Draw()
 {
-    unsigned int matrixID = glGetUniformLocation(shaderProgram.GetID(), "Model");
     //Drawing goes here
+    unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("Model");
     window.UseShader(shaderProgram);
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &monkey.GetModelMatrix()[0][0]); //Send transformation shaders.
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, monkey.GetModelMatrix());
     window.DrawActor(monkey);
-    glUniformMatrix4fv(matrixID, 1, GL_FALSE, &sphere.GetModelMatrix()[0][0]); //Send transformation shaders.
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, sphere.GetModelMatrix());
     window.DrawActor(sphere);
 }
