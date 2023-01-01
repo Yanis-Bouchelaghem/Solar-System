@@ -79,3 +79,8 @@ bool Window::ShouldClose() const
 {
     return glfwWindowShouldClose(window.get());
 }
+
+double Window::GetElapsedTime() const
+{
+    return glfwGetTime();
+}

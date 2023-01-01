@@ -35,10 +35,10 @@ void Game::Update()
     monkey.ApplyRotation(150.0f, glm::vec3(0.f, 1.0f, 0.0f));
 
     sphere.ResetModelMatrix();
-    sphere.ApplyRotation(float(glfwGetTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
+    sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
     sphere.ApplyTranslation(glm::vec3(0.7f, 0.0f, 0.0f));
     sphere.ApplyScale(glm::vec3(0.2f, 0.2f, 0.2f));
-    sphere.ApplyRotation(-float(glfwGetTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
+    sphere.ApplyRotation(-float(window.GetElapsedTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
 
 }
 

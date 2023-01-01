@@ -8,15 +8,15 @@
 
 Actor::Actor(const char* objectPath)
 {
-	//Load the mesh's vertex data from disk.
+	//Load the object's vertex data from disk.
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec2> textureCoordinates;
 	std::vector<glm::vec3> normals;
 	loadOBJ(objectPath, vertexPositions, textureCoordinates, normals);
 	//Save the number of vertices.
-	vertexCount = vertexPositions.size();
+	vertexCount = (int)vertexPositions.size();
 	assert(vertexCount >= 3); //If assertion fails : Object could not be loaded or it does not contain enough vertices.
-	//Setup the buffers for this mesh.
+	//Setup the buffers for this object.
 	//VAO
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -78,7 +78,7 @@ unsigned int Actor::GetVAO() const
 	return VAO;
 }
 
-unsigned int Actor::GetVertexCount() const
+int Actor::GetVertexCount() const
 {
 	return vertexCount;
 }
