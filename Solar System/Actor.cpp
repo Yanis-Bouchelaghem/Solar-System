@@ -39,6 +39,14 @@ Actor::Actor(const char* objectPath)
 	glEnableVertexAttribArray(2);
 }
 
+Actor::~Actor() noexcept
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBOVertex);
+	glDeleteBuffers(1, &VBOTexture);
+	glDeleteBuffers(1, &VBONormals);
+}
+
 void Actor::Draw() const
 {
 	glBindVertexArray(VAO);

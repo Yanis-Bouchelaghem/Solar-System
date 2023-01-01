@@ -5,7 +5,9 @@ class Actor
 {
 public:
 	Actor(const char* objectPath);
-
+	Actor(const Actor& other) = delete;
+	Actor& operator=(const Actor& other) = delete;
+	virtual ~Actor() noexcept;
 	void Draw() const;
 private:
 	unsigned int vertexCount;
