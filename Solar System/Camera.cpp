@@ -40,9 +40,9 @@ void Camera::Move(Movement direction, float deltaTime)
     if (direction == Movement::RIGHT)
         position += right * velocity;
     if (direction == Movement::UP)
-        position += up * velocity;
+        position += worldUp * velocity;
     if (direction == Movement::DOWN)
-        position -= up * velocity;
+        position -= worldUp * velocity;
 }
 
 void Camera::Rotate(glm::vec2 rotationOffset, bool constrainPitch)
