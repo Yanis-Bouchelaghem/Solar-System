@@ -22,9 +22,10 @@ private:
 	Camera camera;
 	//Load textures.
 	Texture earthTexture;
+	Texture skyboxTexture;
 	//Load actors.
 	Actor monkey;
 	Actor sphere;
-	Actor dome;
+	Actor skyBox;
 	glm::vec2 lastMousePosition;
 };

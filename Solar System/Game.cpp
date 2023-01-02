@@ -9,9 +9,10 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     earthTexture("..\\Resources\\Textures\\earth.jpg"),
+    skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg"),
     monkey("..\\Resources\\Objects\\monke.obj", earthTexture),
     sphere("..\\Resources\\Objects\\sphere.obj", earthTexture),
-    dome("..\\Resources\\Objects\\sphere.obj", earthTexture)
+    skyBox("..\\Resources\\Objects\\sphere.obj", skyboxTexture)
 {
     lastMousePosition = window.GetMousePosition();
 }
@@ -38,6 +39,7 @@ void Game::Update()
     glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
     lastMousePosition = mousePosition;
     camera.Rotate(cameraRotationOffset);
+    ///////////////////////////TODO : Implement deltatime.
     //Update camera position based on input.
     if (window.IsKeyPressed(settings::forwardKey))
     {
@@ -72,8 +74,8 @@ void Game::Update()
     sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, { 0.f, 1.0f, 0.f });
     sphere.ApplyTranslation({ 2.5f, 0.0f, 0.0f });
 
-    dome.ResetModelMatrix();
-    dome.ApplyScale(glm::vec3{ 100.0f });
+    skyBox.ResetModelMatrix();
+    skyBox.ApplyScale(glm::vec3{ 100.0f });
 
 }
 
@@ -89,7 +91,8 @@ void Game::Draw()
     window.DrawActor(monkey);
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sphere.GetModelMatrix());
     window.DrawActor(sphere);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * dome.GetModelMatrix());
-    window.DrawActor(dome);
+    viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * skyBox.GetModelMatrix());
+    window.DrawActor(skyBox);
 
 }
