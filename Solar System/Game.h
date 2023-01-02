@@ -2,7 +2,6 @@
 #include <string>
 #include "Window.h"
 #include "ShaderProgram.h"
-#include "glm/glm.hpp"
 #include "Actor.h"
 #include "Camera.h"
 //A class that represents the game simulation and handles the logic/render loop.

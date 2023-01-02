@@ -75,6 +75,11 @@ void Window::SwapBuffers()
     glfwSwapBuffers(window.get());
 }
 
+void Window::PollEvents() const
+{
+    glfwPollEvents();
+}
+
 bool Window::ShouldClose() const
 {
     return glfwWindowShouldClose(window.get());

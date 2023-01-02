@@ -19,6 +19,7 @@ public:
 	void DrawActor(const Actor& actor, const ShaderProgram& shaderProgram); //Binds the given shader, then draws actor.
 	void ClearBuffers();				//Clears the color and depth buffers.
 	void SwapBuffers();					//Swaps the buffers to display a frame.
+	void PollEvents() const;			//Processes the pending window events.
 	bool ShouldClose() const;			//Returns whether or not the window is flagged for closing.
 	double GetElapsedTime() const;		//Returns the time elapsed since the creation of the window (in seconds).
 private:
