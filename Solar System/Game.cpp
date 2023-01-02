@@ -6,7 +6,8 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
     camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
-        settings::cameraPitch, settings::cameraSensitivity, settings::cameraFOV, settings::screenRatio),
+        settings::cameraPitch, settings::cameraSensitivity, settings::cameraFOV, settings::screenRatio,
+        settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     monkey("..\\Resources\\Objects\\monke.obj"),
     sphere("..\\Resources\\Objects\\sphere.obj")
 {
