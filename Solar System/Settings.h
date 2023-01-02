@@ -23,5 +23,5 @@ namespace settings
 	inline constexpr float cameraFarPlaneDistance = 100.0f;	//The distance of the far plane from the camera.
 
 	//Precalculate some values for convenience.
-	inline constexpr float screenRatio = windowWidth / windowHeight;
+	inline constexpr float screenRatio = float(windowWidth) / float(windowHeight);
 }
