@@ -19,6 +19,7 @@ namespace settings
 	inline constexpr int viewportWidth = 800;				//The width of the viewport rectangle (from left of window).
 	inline constexpr int viewportHeight = 600;				//The height of the viewport rectangle (from bottom of window).
 	inline constexpr char windowTitle[] = "Solar system";	//The title of the window.
+	inline constexpr bool captureMouse = true;				//Whether or not the window should capture the mouse.
 
 	//Default camera values.
 	inline constexpr glm::vec3 cameraInitialPosition = { 0.0f, 0.0f, 10.0f }; //The initial position of the camera in world space.
