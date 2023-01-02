@@ -21,4 +21,5 @@ private:
 	Camera camera;
 	Actor monkey;
 	Actor sphere;
+	glm::vec2 lastMousePosition;
 };

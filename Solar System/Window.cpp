@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
+#include "Settings.h"
 
 Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
@@ -37,6 +38,11 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     //Enable depth to remove hidden parts.
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    //Capture the mouse.
+    if constexpr (settings::captureMouse)
+    {
+        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
     //Set the window resize callback function
     glfwSetFramebufferSizeCallback(window.get(),
         [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); });
@@ -85,7 +91,19 @@ bool Window::ShouldClose() const
     return glfwWindowShouldClose(window.get());
 }
 
+bool Window::IsKeyPressed(int key) const
+{
+    return glfwGetKey(window.get(), key) == GLFW_PRESS;
+}
+
 double Window::GetElapsedTime() const
 {
     return glfwGetTime();
+}
+
+glm::vec2 Window::GetMousePosition() const
+{
+    double xpos, ypos;
+    glfwGetCursorPos(window.get(), &xpos, &ypos);
+    return glm::vec2(xpos, ypos);
 }

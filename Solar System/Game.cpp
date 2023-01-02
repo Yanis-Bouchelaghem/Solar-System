@@ -6,10 +6,12 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
     camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
-        settings::cameraPitch, settings::cameraSensitivity, settings::cameraFOV, settings::screenRatio),
+        settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
+        settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     monkey("..\\Resources\\Objects\\monke.obj"),
     sphere("..\\Resources\\Objects\\sphere.obj")
 {
+    lastMousePosition = window.GetMousePosition();
 }
 
 void Game::Tick()
@@ -28,7 +30,37 @@ bool Game::ShouldClose() const
 
 void Game::Update()
 {
-    //Logic goes here
+    //Logic goes here.
+    //Calculate camera rotation.
+    glm::vec2 mousePosition = window.GetMousePosition();
+    glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
+    lastMousePosition = mousePosition;
+    camera.Rotate(cameraRotationOffset);
+    //Update camera position based on input.
+    if (window.IsKeyPressed(settings::forwardKey))
+    {
+        camera.Move(Camera::Movement::FORWARD, 0.016f);
+    }    
+    if (window.IsKeyPressed(settings::backwardKey))
+    {
+        camera.Move(Camera::Movement::BACKWARD, 0.016f);
+    }
+    if (window.IsKeyPressed(settings::leftKey))
+    {
+        camera.Move(Camera::Movement::LEFT, 0.016f);
+    } 
+    if (window.IsKeyPressed(settings::rightKey))
+    {
+        camera.Move(Camera::Movement::RIGHT, 0.016f);
+    }
+    if (window.IsKeyPressed(settings::upKey))
+    {
+        camera.Move(Camera::Movement::UP, 0.016f);
+    }
+    if (window.IsKeyPressed(settings::downKey))
+    {
+        camera.Move(Camera::Movement::DOWN, 0.016f);
+    }
     monkey.ResetModelMatrix();
     monkey.ApplyTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
     monkey.ApplyRotation(0.0f, glm::vec3(0.f, 1.0f, 0.0f));
@@ -41,7 +73,7 @@ void Game::Update()
 
 void Game::Draw()
 {
-    //Drawing goes here
+    //Drawing goes here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 
