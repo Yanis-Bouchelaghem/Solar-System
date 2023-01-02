@@ -85,6 +85,11 @@ bool Window::ShouldClose() const
     return glfwWindowShouldClose(window.get());
 }
 
+bool Window::IsKeyPressed(int key) const
+{
+    return glfwGetKey(window.get(), key) == GLFW_PRESS;
+}
+
 double Window::GetElapsedTime() const
 {
     return glfwGetTime();

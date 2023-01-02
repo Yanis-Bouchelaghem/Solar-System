@@ -29,7 +29,7 @@ glm::mat4 Camera::GetPerspectiveMatrix() const
     return glm::perspective(glm::radians(zoom), screenRatio, nearPlaneDistance, farPlaneDistance);
 }
 
-void Camera::ProcessKeyboard(Movement direction, float deltaTime)
+void Camera::Move(Movement direction, float deltaTime)
 {
     float velocity = movementSpeed * deltaTime;
     if (direction == Movement::FORWARD)

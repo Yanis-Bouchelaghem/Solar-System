@@ -28,7 +28,25 @@ bool Game::ShouldClose() const
 
 void Game::Update()
 {
-    //Logic goes here
+    //Logic goes here.
+
+    //Update camera position based on input.
+    if (window.IsKeyPressed(settings::forwardKey))
+    {
+        camera.Move(Camera::Movement::FORWARD, 0.016f);
+    }    
+    if (window.IsKeyPressed(settings::backwardKey))
+    {
+        camera.Move(Camera::Movement::BACKWARD, 0.016f);
+    }
+    if (window.IsKeyPressed(settings::leftKey))
+    {
+        camera.Move(Camera::Movement::LEFT, 0.016f);
+    } 
+    if (window.IsKeyPressed(settings::rightKey))
+    {
+        camera.Move(Camera::Movement::RIGHT, 0.016f);
+    }
     monkey.ResetModelMatrix();
     monkey.ApplyTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
     monkey.ApplyRotation(0.0f, glm::vec3(0.f, 1.0f, 0.0f));
@@ -41,7 +59,7 @@ void Game::Update()
 
 void Game::Draw()
 {
-    //Drawing goes here
+    //Drawing goes here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 

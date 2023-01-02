@@ -21,6 +21,7 @@ public:
 	void SwapBuffers();					//Swaps the buffers to display a frame.
 	void PollEvents() const;			//Processes the pending window events.
 	bool ShouldClose() const;			//Returns whether or not the window is flagged for closing.
+	bool IsKeyPressed(int key) const;
 	double GetElapsedTime() const;		//Returns the time elapsed since the creation of the window (in seconds).
 private:
 	//The GLFW window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
