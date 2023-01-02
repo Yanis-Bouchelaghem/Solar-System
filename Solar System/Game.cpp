@@ -8,9 +8,12 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
-    monkey("..\\Resources\\Objects\\monke.obj"),
-    sphere("..\\Resources\\Objects\\sphere.obj"),
-    dome("..\\Resources\\Objects\\sphere.obj")
+    sunTexture("..\\Resources\\Textures\\sun.jpg"),
+    earthTexture("..\\Resources\\Textures\\earth.jpg"),
+    skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg"),
+    sun("..\\Resources\\Objects\\sphere.obj", sunTexture),
+    earth("..\\Resources\\Objects\\sphere.obj", earthTexture),
+    skyBox("..\\Resources\\Objects\\sphere.obj", skyboxTexture)
 {
     lastMousePosition = window.GetMousePosition();
 }
@@ -37,6 +40,7 @@ void Game::Update()
     glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
     lastMousePosition = mousePosition;
     camera.Rotate(cameraRotationOffset);
+    ///////////////////////////TODO : Implement deltatime.
     //Update camera position based on input.
     if (window.IsKeyPressed(settings::forwardKey))
     {
@@ -63,16 +67,16 @@ void Game::Update()
         camera.Move(Camera::Movement::DOWN, 0.016f);
     }
 
-    monkey.ResetModelMatrix();
-    monkey.ApplyTranslation({ 0.0f, 0.0f, 0.0f });
-    monkey.ApplyRotation(0.0f, { 0.f, 1.0f, 0.0f });
+    sun.ResetModelMatrix();
+    sun.ApplyRotation(float(window.GetElapsedTime() * 20), { 0.f, 1.0f, 0.0f });
+    sun.ApplyScale({ 5.0f, 5.0f, 5.0f });
 
-    sphere.ResetModelMatrix();
-    sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, { 0.f, 1.0f, 0.f });
-    sphere.ApplyTranslation({ 2.5f, 0.0f, 0.0f });
+    earth.ResetModelMatrix();
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 90, { 0.f, 1.0f, 0.f });
+    earth.ApplyTranslation({ 10.0f, 0.0f, 0.0f });
 
-    dome.ResetModelMatrix();
-    dome.ApplyScale(glm::vec3{ 100.0f });
+    skyBox.ResetModelMatrix();
+    skyBox.ApplyScale(glm::vec3{ 100.0f });
 
 }
 
@@ -84,11 +88,12 @@ void Game::Draw()
 
     window.UseShader(shaderProgram);
     unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("MVP");
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * monkey.GetModelMatrix());
-    window.DrawActor(monkey);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sphere.GetModelMatrix());
-    window.DrawActor(sphere);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * dome.GetModelMatrix());
-    window.DrawActor(dome);
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sun.GetModelMatrix());
+    window.DrawActor(sun);
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * earth.GetModelMatrix());
+    window.DrawActor(earth);
+    viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * skyBox.GetModelMatrix());
+    window.DrawActor(skyBox);
 
 }

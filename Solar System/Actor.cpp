@@ -6,7 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "objload.h"
 
-Actor::Actor(const char* objectPath)
+Actor::Actor(const char* objectPath, const Texture& texture)
+	:
+	texture(texture)
 {
 	//Load the object's vertex data from disk.
 	std::vector<glm::vec3> vertexPositions;
@@ -81,4 +83,9 @@ unsigned int Actor::GetVAO() const
 int Actor::GetVertexCount() const
 {
 	return vertexCount;
+}
+
+const Texture& Actor::GetTexture() const
+{
+	return texture;
 }

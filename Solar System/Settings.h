@@ -12,20 +12,20 @@ namespace settings
 	inline constexpr int downKey = 81;
 
 	//Default window values.
-	inline constexpr int windowWidth = 800;					//The width of the window.
-	inline constexpr int windowHeight = 600;				//The height of the window.
+	inline constexpr int windowWidth = 1280;					//The width of the window.
+	inline constexpr int windowHeight = 720;				//The height of the window.
 	inline constexpr int viewportX = 0;						//The left x-coordinate of the viewport rectangle (from left of window).
 	inline constexpr int viewportY = 0;						//The left y-coordinate of the viewport rectangle (from bottom of window).
-	inline constexpr int viewportWidth = 800;				//The width of the viewport rectangle (from left of window).
-	inline constexpr int viewportHeight = 600;				//The height of the viewport rectangle (from bottom of window).
+	inline constexpr int viewportWidth = 1280;				//The width of the viewport rectangle (from left of window).
+	inline constexpr int viewportHeight = 720;				//The height of the viewport rectangle (from bottom of window).
 	inline constexpr char windowTitle[] = "Solar system";	//The title of the window.
 	inline constexpr bool captureMouse = true;				//Whether or not the window should capture the mouse.
 
 	//Default camera values.
-	inline constexpr glm::vec3 cameraInitialPosition = { 0.0f, 0.0f, 10.0f }; //The initial position of the camera in world space.
+	inline constexpr glm::vec3 cameraInitialPosition = { 0.0f, 0.0f, 50.0f }; //The initial position of the camera in world space.
 	inline constexpr float cameraYaw = -90.0f;				//The yaw of the camera.
 	inline constexpr float cameraPitch = 0.0f;				//The pitch of the camera.
-	inline constexpr float cameraSpeed = 4.0f;				//The speed of the camera's movement.
+	inline constexpr float cameraSpeed = 10.0f;				//The speed of the camera's movement.
 	inline constexpr float cameraSensitivity = 0.05f;		//The sensitivity of the mouse.
 	inline constexpr float cameraFOV = 45.0f;				//The field of view.
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
