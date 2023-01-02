@@ -48,6 +48,9 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

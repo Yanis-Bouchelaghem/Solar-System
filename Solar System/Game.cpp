@@ -8,9 +8,10 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
-    monkey("..\\Resources\\Objects\\monke.obj"),
-    sphere("..\\Resources\\Objects\\sphere.obj"),
-    dome("..\\Resources\\Objects\\sphere.obj")
+    earthTexture("..\\Resources\\Textures\\earth.jpg"),
+    monkey("..\\Resources\\Objects\\monke.obj", earthTexture),
+    sphere("..\\Resources\\Objects\\sphere.obj", earthTexture),
+    dome("..\\Resources\\Objects\\sphere.obj", earthTexture)
 {
     lastMousePosition = window.GetMousePosition();
 }

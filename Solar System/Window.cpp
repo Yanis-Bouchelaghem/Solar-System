@@ -61,6 +61,8 @@ void Window::UseShader(const ShaderProgram& shaderProgram)
 
 void Window::DrawActor(const Actor& actor)
 {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, actor.GetTexture().GetID());
     glBindVertexArray(actor.GetVAO());
     glDrawArrays(GL_TRIANGLES, 0, actor.GetVertexCount());
 }
