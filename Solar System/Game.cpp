@@ -9,7 +9,8 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     monkey("..\\Resources\\Objects\\monke.obj"),
-    sphere("..\\Resources\\Objects\\sphere.obj")
+    sphere("..\\Resources\\Objects\\sphere.obj"),
+    dome("..\\Resources\\Objects\\sphere.obj")
 {
     lastMousePosition = window.GetMousePosition();
 }
@@ -61,13 +62,17 @@ void Game::Update()
     {
         camera.Move(Camera::Movement::DOWN, 0.016f);
     }
+
     monkey.ResetModelMatrix();
-    monkey.ApplyTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
-    monkey.ApplyRotation(0.0f, glm::vec3(0.f, 1.0f, 0.0f));
+    monkey.ApplyTranslation({ 0.0f, 0.0f, 0.0f });
+    monkey.ApplyRotation(0.0f, { 0.f, 1.0f, 0.0f });
 
     sphere.ResetModelMatrix();
-    sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, glm::vec3(0.f, 1.0f, 0.f));
-    sphere.ApplyTranslation(glm::vec3(2.5f, 0.0f, 0.0f));
+    sphere.ApplyRotation(float(window.GetElapsedTime()) * 180, { 0.f, 1.0f, 0.f });
+    sphere.ApplyTranslation({ 2.5f, 0.0f, 0.0f });
+
+    dome.ResetModelMatrix();
+    dome.ApplyScale(glm::vec3{ 100.0f });
 
 }
 
@@ -83,4 +88,7 @@ void Game::Draw()
     window.DrawActor(monkey);
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sphere.GetModelMatrix());
     window.DrawActor(sphere);
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * dome.GetModelMatrix());
+    window.DrawActor(dome);
+
 }
