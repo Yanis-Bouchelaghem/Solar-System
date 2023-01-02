@@ -16,13 +16,13 @@ public:
         DOWN
     };
 public:
-    Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch,
+    Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch, float maxPitch,
         float mouseSensitivity, float zoom, float screenRatio, float nearPlaneDistance = 0.1f, float farPlaneDistance = 100.f);
     glm::mat4 GetViewMatrix() const;        //Returns the view matrix calculated using Euler Angles and the LookAt Matrix.
     glm::mat4 GetPerspectiveMatrix() const; //Returns the perspective matrix using the current zoom, ratio and near/far plane properties.
     void Move(Movement direction, float deltaTime); //Moves the camera in the given direction.
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-    void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+    void Rotate(glm::vec2 rotationOffset, bool constrainPitch = true);
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
 private:
@@ -37,6 +37,7 @@ private:
     // euler Angles
     float yaw;
     float pitch;
+    float maxPitch;
     // camera options
     float movementSpeed;
     float mouseSensitivity;

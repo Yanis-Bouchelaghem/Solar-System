@@ -100,3 +100,10 @@ double Window::GetElapsedTime() const
 {
     return glfwGetTime();
 }
+
+glm::vec2 Window::GetMousePosition() const
+{
+    double xpos, ypos;
+    glfwGetCursorPos(window.get(), &xpos, &ypos);
+    return glm::vec2(xpos, ypos);
+}

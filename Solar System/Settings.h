@@ -26,10 +26,11 @@ namespace settings
 	inline constexpr float cameraYaw = -90.0f;				//The yaw of the camera.
 	inline constexpr float cameraPitch = 0.0f;				//The pitch of the camera.
 	inline constexpr float cameraSpeed = 4.0f;				//The speed of the camera's movement.
-	inline constexpr float cameraSensitivity = 0.1f;		//The sensitivity of the mouse.
+	inline constexpr float cameraSensitivity = 0.05f;		//The sensitivity of the mouse.
 	inline constexpr float cameraFOV = 45.0f;				//The field of view.
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
 	inline constexpr float cameraFarPlaneDistance = 100.0f;	//The distance of the far plane from the camera.
+	inline constexpr float cameraMaxPitch = 70.0f;			//Sets the camera's maximum pitch (when looking up and down).
 
 	//Precalculate some values for convenience.
 	inline constexpr float screenRatio = float(windowWidth) / float(windowHeight);
