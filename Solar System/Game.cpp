@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <iostream>
+#include "Settings.h"
 //TODO : Remove matrix transform when done with it.
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -9,6 +10,8 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
+    camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed,
+        settings::cameraYaw, settings::cameraPitch, settings::cameraSensitivity, settings::cameraZoom),
     monkey("..\\Resources\\Objects\\monke.obj"),
     sphere("..\\Resources\\Objects\\sphere.obj")
 {
@@ -47,16 +50,14 @@ void Game::Update()
 void Game::Draw()
 {
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    glm::mat4 view = glm::mat4(1.0f);
-    // note that we're translating the scene in the reverse direction of where we want to move
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -8.0f));
-
     //Drawing goes here
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    glm::mat4 viewMatrix = camera.GetViewMatrix();
+
     unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("Model");
     window.UseShader(shaderProgram);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * view * monkey.GetModelMatrix());
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * monkey.GetModelMatrix());
     window.DrawActor(monkey);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * view * sphere.GetModelMatrix());
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sphere.GetModelMatrix());
     window.DrawActor(sphere);
 }

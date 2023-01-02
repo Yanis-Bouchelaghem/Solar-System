@@ -4,7 +4,7 @@
 #include "ShaderProgram.h"
 #include "glm/glm.hpp"
 #include "Actor.h"
-
+#include "Camera.h"
 //A class that represents the simulation and handles the logic/render loop.
 class Game
 {
@@ -20,6 +20,7 @@ private:
 	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 	Window window;
 	ShaderProgram shaderProgram;
+	Camera camera;
 	Actor monkey;
 	Actor sphere;
 };
