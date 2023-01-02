@@ -16,7 +16,7 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
-    //Create a window and set its context to the current thread.
+    //Create a window and bind its context to the current thread.
     window.reset(glfwCreateWindow(windowWidth, windowHeight, title.c_str(), monitor, share));
     if (window == nullptr)
     {
@@ -34,7 +34,7 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
     //Set the background clear color.
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    //Enable depth to allow us to remove hidden parts.
+    //Enable depth to remove hidden parts.
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     //Set the window resize callback function
