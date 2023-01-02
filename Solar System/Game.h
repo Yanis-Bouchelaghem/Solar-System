@@ -21,11 +21,12 @@ private:
 	ShaderProgram shaderProgram;
 	Camera camera;
 	//Load textures.
+	Texture sunTexture;
 	Texture earthTexture;
 	Texture skyboxTexture;
 	//Load actors.
-	Actor monkey;
-	Actor sphere;
+	Actor sun;
+	Actor earth;
 	Actor skyBox;
 	glm::vec2 lastMousePosition;
 };
