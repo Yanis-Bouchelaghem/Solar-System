@@ -22,12 +22,12 @@ public:
 	}
 	//Template specializations.
 	template<>
-	void SendUniform<glm::mat4>(unsigned int uniformID, const glm::mat4& value)
+	void SendUniform<glm::mat4>(unsigned int uniformID, const glm::mat4& value) //Send a matrix of dimension 4.
 	{
 		glUniformMatrix4fv(uniformID, 1, GL_FALSE, &value[0][0]);
 	}
 	template<>
-	void SendUniform<unsigned int>(unsigned int uniformID, const unsigned int& value)
+	void SendUniform<unsigned int>(unsigned int uniformID, const unsigned int& value) //Send an unsigned integer.
 	{
 		glUniform1ui(uniformID, value);
 	}

@@ -78,6 +78,7 @@ ShaderProgram::~ShaderProgram() noexcept
 
 unsigned int ShaderProgram::GetUniformID(const char* uniformName) const
 {
+    assert(glGetUniformLocation(shaderProgramID, uniformName) != -1); //If assertion triggers: Uniform does not exist in current shader program.
     return glGetUniformLocation(shaderProgramID, uniformName);
 }
 
