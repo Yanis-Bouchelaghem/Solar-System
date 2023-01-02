@@ -18,7 +18,6 @@ public:
 public:
     Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch,
         float mouseSensitivity, float zoom, float screenRatio, float nearPlaneDistance = 0.1f, float farPlaneDistance = 100.f);
-    
     glm::mat4 GetViewMatrix() const;        //Returns the view matrix calculated using Euler Angles and the LookAt Matrix.
     glm::mat4 GetPerspectiveMatrix() const; //Returns the perspective matrix using the current zoom, ratio and near/far plane properties.
     void Move(Movement direction, float deltaTime); //Moves the camera in the given direction.
