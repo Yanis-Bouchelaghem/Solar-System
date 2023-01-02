@@ -40,6 +40,10 @@ void Camera::Move(Movement direction, float deltaTime)
         position -= right * velocity;
     if (direction == Movement::RIGHT)
         position += right * velocity;
+    if (direction == Movement::UP)
+        position += up * velocity;
+    if (direction == Movement::DOWN)
+        position -= up * velocity;
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)

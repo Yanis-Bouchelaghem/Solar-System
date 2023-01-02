@@ -8,6 +8,8 @@ namespace settings
 	inline constexpr int backwardKey = 83;
 	inline constexpr int leftKey = 65;
 	inline constexpr int rightKey = 68;
+	inline constexpr int upKey = 69;
+	inline constexpr int downKey = 81;
 
 	//Default window values.
 	inline constexpr int windowWidth = 800;					//The width of the window.

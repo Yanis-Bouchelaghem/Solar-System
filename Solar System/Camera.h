@@ -11,7 +11,9 @@ public:
         FORWARD,
         BACKWARD,
         LEFT,
-        RIGHT
+        RIGHT,
+        UP,
+        DOWN
     };
 public:
     Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch,

@@ -47,6 +47,14 @@ void Game::Update()
     {
         camera.Move(Camera::Movement::RIGHT, 0.016f);
     }
+    if (window.IsKeyPressed(settings::upKey))
+    {
+        camera.Move(Camera::Movement::UP, 0.016f);
+    }
+    if (window.IsKeyPressed(settings::downKey))
+    {
+        camera.Move(Camera::Movement::DOWN, 0.016f);
+    }
     monkey.ResetModelMatrix();
     monkey.ApplyTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
     monkey.ApplyRotation(0.0f, glm::vec3(0.f, 1.0f, 0.0f));
