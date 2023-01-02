@@ -46,7 +46,7 @@ void Game::Draw()
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 
     window.UseShader(shaderProgram);
-    unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("Model");
+    unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("MVP");
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * monkey.GetModelMatrix());
     window.DrawActor(monkey);
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sphere.GetModelMatrix());

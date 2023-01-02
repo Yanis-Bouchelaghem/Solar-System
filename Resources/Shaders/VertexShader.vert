@@ -5,10 +5,10 @@ layout (location = 2) in vec3 aNormals;
 
 out vec3 ourColor;
 
-uniform mat4 Model;
+uniform mat4 MVP;
 
 void main()
 {
-    gl_Position = Model * vec4(aPos, 1.0);
+    gl_Position = MVP * vec4(aPos, 1.0);
     ourColor = aNormals; //For now we are sending the normals as the color
 }
