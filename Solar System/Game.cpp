@@ -67,7 +67,7 @@ void Game::Update()
     earth.ApplyTranslation({ 10.0f, 0.0f, 0.0f });
 
     skyBox.ResetModelMatrix();
-    skyBox.ApplyScale(glm::vec3{ 100.0f });
+    skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
 
 }
 
