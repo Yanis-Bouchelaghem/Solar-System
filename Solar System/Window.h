@@ -3,20 +3,22 @@
 #include <memory>
 #include <functional>
 #include <glm/vec2.hpp>
-#include "Actor.h"
 #include "ShaderProgram.h"
+#include "Actor.h"
+#include "Mesh.h"
+#include "Texture.h"
 //A window class that manages the OpenGL context and the GLFW window creation/destruction.
 class Window
 {
 public:
 	Window(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight,
 		const std::string title, struct GLFWmonitor* monitor = nullptr, struct GLFWwindow* share = nullptr);
-	Window(const Window& other) = delete;
-	Window& operator=(const Window& other) = delete;
+	Window(const Window& other) = delete;				//No copy construction allowed.
+	Window& operator=(const Window& other) = delete;	//No copy assignment allowed.
 	~Window() noexcept;
 	void UseShader(const ShaderProgram& shaderProgram);	//Binds the given shader.
-	void DrawActor(const Actor& actor);	//Draws an actor with the currently bound shader.
-	void DrawActor(const Actor& actor, const ShaderProgram& shaderProgram); //Binds the given shader, then draws actor.
+	void DrawActor(const Actor& actor, const Mesh& mesh, const Texture& texture);	//Draws actor with the given mesh and texture.
+	void DrawActor(const Actor& actor, const Mesh& mesh, const Texture& texture, const ShaderProgram& shaderProgram); //Binds the given shader, then draws actor.
 	void ClearBuffers();				//Clears the color and depth buffers.
 	void SwapBuffers();					//Swaps the buffers to display a frame.
 	void PollEvents() const;			//Processes the pending window events.

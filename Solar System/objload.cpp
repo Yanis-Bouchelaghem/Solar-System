@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <string>
 #include <cstring>
-
-#include <glm/glm.hpp>
-
 #include "objload.h"
 #pragma warning( push )
 #pragma warning( disable : 4996)

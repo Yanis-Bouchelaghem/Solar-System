@@ -1,6 +1,6 @@
 #pragma once
 
-//Represents a texture and handles its loading from disk.
+//Represents a texture, handles its loading from disk.
 class Texture
 {
 public:

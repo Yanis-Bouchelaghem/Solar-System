@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "Actor.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "Texture.h"
 //A class that represents the game simulation and handles the logic/render loop.
 class Game
@@ -18,15 +19,18 @@ private:
 	void Draw();
 private:
 	Window window;	//Window must be constructed first, it initializes OpenGL context and GLFW window.
+private:
 	ShaderProgram shaderProgram;
 	Camera camera;
+	glm::vec2 lastMousePosition;
+	//Load meshes.
+	Mesh sphereMesh;
 	//Load textures.
 	Texture sunTexture;
 	Texture earthTexture;
 	Texture skyboxTexture;
-	//Load actors.
+	//Create actors.
 	Actor sun;
 	Actor earth;
 	Actor skyBox;
-	glm::vec2 lastMousePosition;
 };
