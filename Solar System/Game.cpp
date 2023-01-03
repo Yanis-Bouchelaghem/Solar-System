@@ -5,15 +5,17 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
-    camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
+    camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     sphereMesh("..\\Resources\\Meshes\\sphere.obj"),
     sunTexture("..\\Resources\\Textures\\sun.jpg"),
     earthTexture("..\\Resources\\Textures\\earth.jpg"),
+    mercuryTexture("..\\Resources\\Textures\\mercury.jpg"),
     skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
+    skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
 }
 
 void Game::Tick()
@@ -58,17 +60,22 @@ void Game::Update()
     if (window.IsKeyPressed(settings::downKey))
         camera.Move(Camera::Movement::DOWN, 0.016f);
     
+    //Calculate sun transforms.
     sun.ResetModelMatrix();
-    sun.ApplyRotation(float(window.GetElapsedTime() * 5), { 0.f, 1.0f, 0.0f });
+    sun.ApplyRotation(float(window.GetElapsedTime() * 5), Camera::worldUp);
     sun.ApplyScale(glm::vec3{100.0f});
-
+    //Calculate earth transforms.
     earth.ResetModelMatrix();
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, { 0.f, 1.0f, 0.f });
-    earth.ApplyTranslation({ 150.0f, 0.0f, 0.0f });
-    earth.ApplyScale(glm::vec3{ 0.9f });
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp);
+    earth.ApplyTranslation({ settings::earthOrbitRadius, 0.0f, 0.0f });
+    earth.ApplyScale(glm::vec3{ settings::earthScale });
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp);
+    //Calculate mercury transforms.
+    mercury.ResetModelMatrix();
+    mercury.ApplyRotation(float(window.GetElapsedTime()) * 50, Camera::worldUp);
+    mercury.ApplyTranslation({ settings::earthOrbitRadius * 0.6f, 0.0f, 0.0f });
+    mercury.ApplyScale(glm::vec3{ settings::earthScale * 0.5f });
 
-    skyBox.ResetModelMatrix();
-    skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
 
 }
 
@@ -79,13 +86,19 @@ void Game::Draw()
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 
     window.UseShader(shaderProgram);
-    unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("MVP");
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sun.GetModelMatrix());
+    unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
+    //Draw sun.
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * sun.GetModelMatrix());
     window.DrawActor(sun, sphereMesh, sunTexture);
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * earth.GetModelMatrix());
+    //Draw earth.
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * earth.GetModelMatrix());
     window.DrawActor(earth, sphereMesh, earthTexture);
+    //Draw mercury.
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * mercury.GetModelMatrix());
+    window.DrawActor(mercury, sphereMesh, mercuryTexture);
+    //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * skyBox.GetModelMatrix());
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
     window.DrawActor(skyBox, sphereMesh, skyboxTexture);
 
 }

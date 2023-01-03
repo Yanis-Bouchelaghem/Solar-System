@@ -28,9 +28,11 @@ private:
 	//Load textures.
 	Texture sunTexture;
 	Texture earthTexture;
+	Texture mercuryTexture;
 	Texture skyboxTexture;
 	//Create actors.
 	Actor sun;
 	Actor earth;
+	Actor mercury;
 	Actor skyBox;
 };

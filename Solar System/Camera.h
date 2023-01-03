@@ -5,6 +5,7 @@
 class Camera
 {
 public:
+    static constexpr glm::vec3 worldUp = { 0.0f, 1.0f, 0.0f };
     // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods.
     enum class Movement
     {
@@ -16,13 +17,12 @@ public:
         DOWN
     };
 public:
-    Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch, float maxPitch,
+    Camera(glm::vec3 position, float movementSpeed, float yaw, float pitch, float maxPitch,
         float mouseSensitivity, float zoom, float screenRatio, float nearPlaneDistance = 0.1f, float farPlaneDistance = 100.f);
     glm::mat4 GetViewMatrix() const;        //Returns the view matrix calculated using Euler Angles and the LookAt Matrix.
     glm::mat4 GetPerspectiveMatrix() const; //Returns the perspective matrix using the current zoom, ratio and near/far plane properties.
     void Move(Movement direction, float deltaTime); //Moves the camera in the given direction.
-    // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-    void Rotate(glm::vec2 rotationOffset, bool constrainPitch = true);
+    void Rotate(glm::vec2 rotationOffset, bool constrainPitch = true);//Rotates the camera according to a given rotation.
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
     void ProcessMouseScroll(float yoffset);
 private:
@@ -33,7 +33,6 @@ private:
     glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 up;
     glm::vec3 right;
-    glm::vec3 worldUp;
     // euler Angles
     float yaw;
     float pitch;
