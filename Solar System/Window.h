@@ -22,6 +22,7 @@ public:
 	void ClearBuffers();				//Clears the color and depth buffers.
 	void SwapBuffers();					//Swaps the buffers to display a frame.
 	void PollEvents() const;			//Processes the pending window events.
+	void Close();						//Flags the window for closing.
 	bool ShouldClose() const;			//Returns whether or not the window is flagged for closing.
 	bool IsKeyPressed(int key) const;	//Returns whether or not the given key is currently pressed.
 	double GetElapsedTime() const;		//Returns the time elapsed since the creation of the window (in seconds).

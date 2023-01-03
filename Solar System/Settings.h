@@ -3,14 +3,14 @@
 //Settings that can be tweaked.
 namespace settings
 {
-	//Movement keyboard bindings (US layout, use https://www.glfw.org/docs/3.3/group__keys.html for looking up the key's values).
-	inline constexpr int forwardKey = 87;
-	inline constexpr int backwardKey = 83;
-	inline constexpr int leftKey = 65;
-	inline constexpr int rightKey = 68;
-	inline constexpr int upKey = 69;
-	inline constexpr int downKey = 81;
-
+	//Keyboard bindings (US layout, use https://www.glfw.org/docs/3.3/group__keys.html for looking up the key's values).
+	inline constexpr int forwardKey = 87;		//W
+	inline constexpr int leftKey = 65;			//A
+	inline constexpr int backwardKey = 83;		//S
+	inline constexpr int rightKey = 68;			//D
+	inline constexpr int upKey = 69;			//Q
+	inline constexpr int downKey = 81;			//E
+	inline constexpr int exitKey = 256;			//Escape
 	//Default window values.
 	inline constexpr int windowWidth = 1280;					//The width of the window.
 	inline constexpr int windowHeight = 720;				//The height of the window.

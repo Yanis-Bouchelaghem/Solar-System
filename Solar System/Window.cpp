@@ -88,6 +88,11 @@ void Window::PollEvents() const
     glfwPollEvents();
 }
 
+void Window::Close()
+{
+    glfwSetWindowShouldClose(window.get(), true);
+}
+
 bool Window::ShouldClose() const
 {
     return glfwWindowShouldClose(window.get());

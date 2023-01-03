@@ -33,6 +33,11 @@ bool Game::ShouldClose() const
 void Game::Update()
 {
     //Logic goes here.
+    //Check if window should be closed.
+    if(window.IsKeyPressed(settings::exitKey))
+    {
+        window.Close();
+    }
     //Calculate camera rotation.
     glm::vec2 mousePosition = window.GetMousePosition();
     glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
@@ -41,30 +46,18 @@ void Game::Update()
     ///////////////////////////TODO : Implement deltatime.
     //Update camera position based on input.
     if (window.IsKeyPressed(settings::forwardKey))
-    {
         camera.Move(Camera::Movement::FORWARD, 0.016f);
-    }    
     if (window.IsKeyPressed(settings::backwardKey))
-    {
         camera.Move(Camera::Movement::BACKWARD, 0.016f);
-    }
     if (window.IsKeyPressed(settings::leftKey))
-    {
         camera.Move(Camera::Movement::LEFT, 0.016f);
-    } 
     if (window.IsKeyPressed(settings::rightKey))
-    {
         camera.Move(Camera::Movement::RIGHT, 0.016f);
-    }
     if (window.IsKeyPressed(settings::upKey))
-    {
         camera.Move(Camera::Movement::UP, 0.016f);
-    }
     if (window.IsKeyPressed(settings::downKey))
-    {
         camera.Move(Camera::Movement::DOWN, 0.016f);
-    }
-
+    
     sun.ResetModelMatrix();
     sun.ApplyRotation(float(window.GetElapsedTime() * 20), { 0.f, 1.0f, 0.0f });
     sun.ApplyScale({ 5.0f, 5.0f, 5.0f });
