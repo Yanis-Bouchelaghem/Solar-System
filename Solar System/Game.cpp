@@ -8,12 +8,10 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     camera(settings::cameraInitialPosition, {0.0f, 1.0f, 0.0f}, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
+    sphereMesh("..\\Resources\\Meshes\\sphere.obj"),
     sunTexture("..\\Resources\\Textures\\sun.jpg"),
     earthTexture("..\\Resources\\Textures\\earth.jpg"),
-    skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg"),
-    sun("..\\Resources\\Objects\\sphere.obj", sunTexture),
-    earth("..\\Resources\\Objects\\sphere.obj", earthTexture),
-    skyBox("..\\Resources\\Objects\\sphere.obj", skyboxTexture)
+    skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
 }
@@ -89,11 +87,11 @@ void Game::Draw()
     window.UseShader(shaderProgram);
     unsigned int modelMatrixUniformID = shaderProgram.GetUniformID("MVP");
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * sun.GetModelMatrix());
-    window.DrawActor(sun);
+    window.DrawActor(sun, sphereMesh, sunTexture);
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * earth.GetModelMatrix());
-    window.DrawActor(earth);
+    window.DrawActor(earth, sphereMesh, earthTexture);
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     shaderProgram.SendUniform<glm::mat4>(modelMatrixUniformID, projection * viewMatrix * skyBox.GetModelMatrix());
-    window.DrawActor(skyBox);
+    window.DrawActor(skyBox, sphereMesh, skyboxTexture);
 
 }

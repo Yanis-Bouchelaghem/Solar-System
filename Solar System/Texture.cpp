@@ -28,6 +28,11 @@ Texture::Texture(const char* texturePath)
     stbi_image_free(data);
 }
 
+Texture::~Texture() noexcept
+{
+    glDeleteTextures(1, &textureID);
+}
+
 unsigned int Texture::GetID() const
 {
     return textureID;
