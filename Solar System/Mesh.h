@@ -1,10 +1,10 @@
 #pragma once
-
+#include <string>
 //Represents a mesh, handles the loading from disk.
 class Mesh
 {
 public:
-	Mesh(const char* meshPath);					//Loads the vertex, texture and normal data from disk.
+	Mesh(std::string meshPath);					//Loads the vertex, texture and normal data from disk.
 	Mesh(const Mesh& other) = delete;			//No copy construction allowed.
 	Mesh& operator=(const Mesh& other) = delete;//No copy assignment allowed.
 	~Mesh() noexcept;							//Frees the vertex, texture and normal VBOs.

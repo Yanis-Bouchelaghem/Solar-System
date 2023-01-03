@@ -2,12 +2,13 @@
 #include <assert.h>
 #include "glm/glm.hpp"
 #include <glad/glad.h>
+#include <string>
 //A class that represents a shader program, manages the loading from disk, compiling and linking of shaders.
 //Also manages the uniform attributes of the shader program.
 class ShaderProgram
 {
 public:
-	ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath);//Compiles and links the shaders.
+	ShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath);//Compiles and links the shaders.
 	ShaderProgram(const ShaderProgram& other) = delete;
 	ShaderProgram& operator=(const ShaderProgram& other) = delete;
 	~ShaderProgram() noexcept;

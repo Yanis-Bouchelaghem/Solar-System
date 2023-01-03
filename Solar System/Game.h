@@ -27,12 +27,24 @@ private:
 	Mesh sphereMesh;
 	//Load textures.
 	Texture sunTexture;
-	Texture earthTexture;
 	Texture mercuryTexture;
+	Texture venusTexture;
+	Texture earthTexture;
+	Texture marsTexture;
+	Texture jupiterTexture;
+	Texture saturnTexture;
+	Texture uranusTexture;
+	Texture neptuneTexture;
 	Texture skyboxTexture;
 	//Create actors.
 	Actor sun;
-	Actor earth;
 	Actor mercury;
+	Actor venus;
+	Actor earth;
+	Actor mars;
+	Actor jupiter;
+	Actor saturn;
+	Actor uranus;
+	Actor neptune;
 	Actor skyBox;
 };

@@ -5,13 +5,13 @@
 #include <glm/glm.hpp>
 #include "objload.h"
 
-Mesh::Mesh(const char* meshPath)
+Mesh::Mesh(std::string meshPath)
 {
 	//Load the object's vertex data from disk.
 	std::vector<glm::vec3> vertexPositions;
 	std::vector<glm::vec2> textureCoordinates;
 	std::vector<glm::vec3> normals;
-	loadOBJ(meshPath, vertexPositions, textureCoordinates, normals);
+	loadOBJ(meshPath.c_str(), vertexPositions, textureCoordinates, normals);
 	//Save the number of vertices.
 	vertexCount = (int)vertexPositions.size();
 	assert(vertexCount >= 3); //If assertion fails : Object could not be loaded or it does not contain enough vertices.

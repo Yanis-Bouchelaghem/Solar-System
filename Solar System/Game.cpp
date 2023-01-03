@@ -4,15 +4,22 @@
 Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
-    shaderProgram("..\\Resources\\Shaders\\VertexShader.vert", "..\\Resources\\Shaders\\FragmentShader.frag"),
+    shaderProgram(settings::shadersPath + "VertexShader.vert", settings::shadersPath + "FragmentShader.frag"),
     camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
-    sphereMesh("..\\Resources\\Meshes\\sphere.obj"),
-    sunTexture("..\\Resources\\Textures\\sun.jpg"),
-    earthTexture("..\\Resources\\Textures\\earth.jpg"),
-    mercuryTexture("..\\Resources\\Textures\\mercury.jpg"),
-    skyboxTexture("..\\Resources\\Textures\\stars_milkyway.jpg")
+    sphereMesh(settings::meshesPath + "sphere.obj"),
+    //Load meshes.
+    sunTexture(settings::texturesPath + "sun.jpg"),
+    mercuryTexture(settings::texturesPath + "mercury.jpg"),
+    venusTexture(settings::texturesPath + "venus.jpg"),
+    earthTexture(settings::texturesPath + "earth.jpg"),
+    marsTexture(settings::texturesPath + "mars.jpg"),
+    jupiterTexture(settings::texturesPath + "jupiter.jpg"),
+    saturnTexture(settings::texturesPath + "saturn.jpg"),
+    uranusTexture(settings::texturesPath + "uranus.jpg"),
+    neptuneTexture(settings::texturesPath + "neptune.jpg"),
+    skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
     skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
@@ -62,19 +69,20 @@ void Game::Update()
     
     //Calculate sun transforms.
     sun.ResetModelMatrix();
-    sun.ApplyRotation(float(window.GetElapsedTime() * 5), Camera::worldUp);
+    sun.ApplyRotation(float(window.GetElapsedTime() * 5), Camera::worldUp); //Revolves around itself.
     sun.ApplyScale(glm::vec3{100.0f});
     //Calculate earth transforms.
     earth.ResetModelMatrix();
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp);
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Rotates around the sun.
     earth.ApplyTranslation({ settings::earthOrbitRadius, 0.0f, 0.0f });
     earth.ApplyScale(glm::vec3{ settings::earthScale });
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp);
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Revolves around itself.
     //Calculate mercury transforms.
     mercury.ResetModelMatrix();
-    mercury.ApplyRotation(float(window.GetElapsedTime()) * 50, Camera::worldUp);
+    mercury.ApplyRotation(float(window.GetElapsedTime()) * 50, Camera::worldUp);// Rotates around the sun.
     mercury.ApplyTranslation({ settings::earthOrbitRadius * 0.6f, 0.0f, 0.0f });
-    mercury.ApplyScale(glm::vec3{ settings::earthScale * 0.5f });
+    mercury.ApplyScale(glm::vec3{ settings::mercuryScale });
+    mercury.ApplyRotation(float(window.GetElapsedTime()) * 90, Camera::worldUp); //Revolves around itself.
 
 
 }

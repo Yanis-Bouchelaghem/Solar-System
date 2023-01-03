@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iostream>
 
-ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath)
+ShaderProgram::ShaderProgram(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
     //1.Retrieve the vertex/fragment source code from filePath.
     std::string vertexCode;
