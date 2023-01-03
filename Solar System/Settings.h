@@ -22,10 +22,10 @@ namespace settings
 	inline constexpr bool captureMouse = true;				//Whether or not the window should capture the mouse.
 
 	//Default camera values.
-	inline constexpr glm::vec3 cameraInitialPosition = { 0.0f, 0.0f, 50.0f }; //The initial position of the camera in world space.
+	inline constexpr glm::vec3 cameraInitialPosition = { 0.0f, 0.0f, 150.0f }; //The initial position of the camera in world space.
 	inline constexpr float cameraYaw = -90.0f;				//The yaw of the camera.
 	inline constexpr float cameraPitch = 0.0f;				//The pitch of the camera.
-	inline constexpr float cameraSpeed = 10.0f;				//The speed of the camera's movement.
+	inline constexpr float cameraSpeed = 30.0f;				//The speed of the camera's movement.
 	inline constexpr float cameraSensitivity = 0.05f;		//The sensitivity of the mouse.
 	inline constexpr float cameraFOV = 45.0f;				//The field of view.
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.

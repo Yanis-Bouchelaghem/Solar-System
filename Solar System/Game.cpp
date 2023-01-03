@@ -59,12 +59,13 @@ void Game::Update()
         camera.Move(Camera::Movement::DOWN, 0.016f);
     
     sun.ResetModelMatrix();
-    sun.ApplyRotation(float(window.GetElapsedTime() * 20), { 0.f, 1.0f, 0.0f });
-    sun.ApplyScale({ 5.0f, 5.0f, 5.0f });
+    sun.ApplyRotation(float(window.GetElapsedTime() * 5), { 0.f, 1.0f, 0.0f });
+    sun.ApplyScale(glm::vec3{100.0f});
 
     earth.ResetModelMatrix();
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 90, { 0.f, 1.0f, 0.f });
-    earth.ApplyTranslation({ 10.0f, 0.0f, 0.0f });
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, { 0.f, 1.0f, 0.f });
+    earth.ApplyTranslation({ 150.0f, 0.0f, 0.0f });
+    earth.ApplyScale(glm::vec3{ 0.9f });
 
     skyBox.ResetModelMatrix();
     skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
