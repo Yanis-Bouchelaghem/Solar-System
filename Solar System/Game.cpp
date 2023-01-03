@@ -71,20 +71,24 @@ void Game::Update()
     sun.ResetModelMatrix();
     sun.ApplyRotation(float(window.GetElapsedTime() * 5), Camera::worldUp); //Revolves around itself.
     sun.ApplyScale(glm::vec3{100.0f});
-    //Calculate earth transforms.
-    earth.ResetModelMatrix();
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Rotates around the sun.
-    earth.ApplyTranslation({ settings::earthOrbitRadius, 0.0f, 0.0f });
-    earth.ApplyScale(glm::vec3{ settings::earthScale });
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Revolves around itself.
     //Calculate mercury transforms.
     mercury.ResetModelMatrix();
     mercury.ApplyRotation(float(window.GetElapsedTime()) * 50, Camera::worldUp);// Rotates around the sun.
     mercury.ApplyTranslation({ settings::earthOrbitRadius * 0.6f, 0.0f, 0.0f });
     mercury.ApplyScale(glm::vec3{ settings::mercuryScale });
     mercury.ApplyRotation(float(window.GetElapsedTime()) * 90, Camera::worldUp); //Revolves around itself.
-
-
+    //Calculate venus transforms.
+    venus.ResetModelMatrix();
+    venus.ApplyRotation(float(window.GetElapsedTime()) * 25, Camera::worldUp);// Rotates around the sun.
+    venus.ApplyTranslation({ settings::earthOrbitRadius * 0.8f, 0.0f, 0.0f });
+    venus.ApplyScale(glm::vec3{ settings::venusScale });
+    venus.ApplyRotation(-float(window.GetElapsedTime()) * 30, Camera::worldUp); //Revolves clockwise around itself.
+    //Calculate earth transforms.
+    earth.ResetModelMatrix();
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Rotates around the sun.
+    earth.ApplyTranslation({ settings::earthOrbitRadius, 0.0f, 0.0f });
+    earth.ApplyScale(glm::vec3{ settings::earthScale });
+    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Revolves around itself.
 }
 
 void Game::Draw()
@@ -98,12 +102,15 @@ void Game::Draw()
     //Draw sun.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * sun.GetModelMatrix());
     window.DrawActor(sun, sphereMesh, sunTexture);
-    //Draw earth.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * earth.GetModelMatrix());
-    window.DrawActor(earth, sphereMesh, earthTexture);
     //Draw mercury.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * mercury.GetModelMatrix());
     window.DrawActor(mercury, sphereMesh, mercuryTexture);
+    //Draw venus.
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * venus.GetModelMatrix());
+    window.DrawActor(venus, sphereMesh, venusTexture);
+    //Draw earth.
+    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * earth.GetModelMatrix());
+    window.DrawActor(earth, sphereMesh, earthTexture);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
