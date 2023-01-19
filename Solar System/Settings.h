@@ -9,17 +9,44 @@ namespace settings
 	inline std::string meshesPath = "..\\Resources\\Meshes\\";
 	inline std::string shadersPath = "..\\Resources\\Shaders\\";
 	//Simulation settings.
+	//Radiuses
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
-	inline constexpr float sunScale = 100.f;				//The scale of the sun.
+	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
+	inline constexpr float venusOrbitRadius = earthOrbitRadius * 0.8f;
+	inline constexpr float marsOrbitRadius = earthOrbitRadius * 1.3f;
+	inline constexpr float jupiterOrbitRadius = earthOrbitRadius * 1.6f;
+	inline constexpr float saturnOrbitRadius = earthOrbitRadius * 2.3f;
+	inline constexpr float uranusOrbitRadius = earthOrbitRadius * 2.6f;
+	inline constexpr float neptuneOrbitRadius = earthOrbitRadius * 3.3f;
+	//Scales
+	inline constexpr float sunScale = 100.f;				
 	inline constexpr float earthScale = 10.f;				//The scale of the earth (other planet's scales are adjusted based on this value).
-	inline constexpr float mercuryScale = earthScale * 0.3f;//The scale of mercury.
-	inline constexpr float venusScale = earthScale * 0.9f;	//The scale of venus.
-	inline constexpr float marsScale = earthScale * 0.5f;	//The scale of mars.
-	inline constexpr float jupiterScale = earthScale * 5.0f;//The scale of jupiter.
-	inline constexpr float saturnScale = earthScale * 4.0f;	//The scale of saturn.
-	inline constexpr float uranusScale = earthScale * 2.5f;	//The scale of uranus.
-	inline constexpr float neptuneScale = earthScale * 2.3f;//The scale of neptune.
-	
+	inline constexpr float mercuryScale = earthScale * 0.3f;
+	inline constexpr float venusScale = earthScale * 0.9f;	
+	inline constexpr float marsScale = earthScale * 0.5f;	
+	inline constexpr float jupiterScale = earthScale * 5.0f;
+	inline constexpr float saturnScale = earthScale * 4.0f;	
+	inline constexpr float uranusScale = earthScale * 2.5f;	
+	inline constexpr float neptuneScale = earthScale * 2.3f;
+	//Orbit speeds (in degrees per second).
+	inline constexpr float earthOrbitSpeed = 20.f;	//The number of degrees the earth should travel around its orbit every second (other planet's orbit speeds are adjusted based on this value).
+	inline constexpr float mercuryOrbitSpeed = earthOrbitSpeed * 0.241f;
+	inline constexpr float venusOrbitSpeed = earthOrbitSpeed * 0.616f;
+	inline constexpr float marsOrbitSpeed = earthOrbitSpeed * 1.882f;
+	inline constexpr float jupiterOrbitSpeed = earthOrbitSpeed * 11.87f;
+	inline constexpr float saturnOrbitSpeed = earthOrbitSpeed * 29.476f;
+	inline constexpr float uranusOrbitSpeed = earthOrbitSpeed * 84.073f;
+	inline constexpr float neptuneOrbitSpeed = earthOrbitSpeed * 164.904f;
+	//Rotation Speeds (in degrees per second).
+	inline constexpr float earthRotationSpeed = 20.f;
+	inline constexpr float sunRotationSpeed = earthRotationSpeed * 27;	//The number of degrees the earth should rotate around itself every second (other planet's rotation speeds are adjusted based on this value).
+	inline constexpr float mercuryRotationSpeed = earthRotationSpeed * 0.058f;
+	inline constexpr float venusRotationSpeed = earthRotationSpeed * 0.243f;
+	inline constexpr float marsRotationSpeed = earthRotationSpeed * 1.041;
+	inline constexpr float jupiterRotationSpeed = earthRotationSpeed * 0.416;
+	inline constexpr float saturnRotationSpeed = earthRotationSpeed * 0.458;
+	inline constexpr float uranusRotationSpeed = earthRotationSpeed * 0.708;
+	inline constexpr float neptuneRotationSpeed = earthRotationSpeed * 0.666;
 	//Keyboard bindings (US layout, use https://www.glfw.org/docs/3.3/group__keys.html for looking up the key's values).
 	inline constexpr int forwardKey = 87;		//W
 	inline constexpr int leftKey = 65;			//A
