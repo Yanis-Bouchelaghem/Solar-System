@@ -19,13 +19,30 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     saturnTexture(settings::texturesPath + "saturn.jpg"),
     uranusTexture(settings::texturesPath + "uranus.jpg"),
     neptuneTexture(settings::texturesPath + "neptune.jpg"),
-    skyboxTexture(settings::texturesPath + "stars_milkyway.jpg"),
-    //Initialize the planets.
-    earth(settings::earthOrbitRadius, settings::earthScale, 90, 180)
+    skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
     lastTime = window.GetElapsedTime();
     skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
+    //Initialize the planets
+    //Sun
+    planets.emplace_back(0, settings::sunScale, 0, settings::sunRotationSpeed);
+    //Mercury
+    planets.emplace_back(settings::mercuryOrbitRadius, settings::mercuryScale, settings::mercuryOrbitSpeed, settings::mercuryRotationSpeed);
+    //Venus
+    planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, settings::venusRotationSpeed);
+    //Earth
+    planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
+    //Mars
+    planets.emplace_back(settings::marsOrbitRadius, settings::marsScale, settings::marsOrbitSpeed, settings::marsRotationSpeed);
+    //Jupiter
+    planets.emplace_back(settings::jupiterOrbitRadius, settings::jupiterScale, settings::jupiterOrbitSpeed, settings::jupiterRotationSpeed);
+    //Saturn
+    planets.emplace_back(settings::saturnOrbitRadius, settings::saturnScale, settings::saturnOrbitSpeed, settings::saturnRotationSpeed);
+    //Uranus
+    planets.emplace_back(settings::uranusOrbitRadius, settings::uranusScale, settings::uranusOrbitSpeed, settings::uranusRotationSpeed);
+    //Neptune
+    planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
 }
 
 void Game::Tick()
