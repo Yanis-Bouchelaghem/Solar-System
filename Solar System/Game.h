@@ -24,12 +24,13 @@ private:
 private:
 	ShaderProgram shaderProgram;
 	Camera camera;
-	glm::vec2 lastMousePosition;
 	//Load meshes.
 	Mesh sphereMesh;
 	std::vector<Texture> planetTextures;
 	std::vector<Planet> planets;
 	Actor skyBox;
 	Texture skyboxTexture;
+	glm::vec2 lastMousePosition;
 	float lastTime;
+	float timeSpeed = 1.0f;
 };

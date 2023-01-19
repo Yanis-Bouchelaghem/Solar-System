@@ -47,6 +47,9 @@ namespace settings
 	inline constexpr float saturnRotationSpeed = earthRotationSpeed * 2.183f;
 	inline constexpr float uranusRotationSpeed = earthRotationSpeed * 1.412f;
 	inline constexpr float neptuneRotationSpeed = earthRotationSpeed * 1.501f;
+
+	//Time settings.
+	inline constexpr float timeAdjustSpeed = 0.01f;
 	//Keyboard bindings (US layout, use https://www.glfw.org/docs/3.3/group__keys.html for looking up the key's values).
 	inline constexpr int forwardKey = 87;		//W
 	inline constexpr int leftKey = 65;			//A
@@ -54,6 +57,8 @@ namespace settings
 	inline constexpr int rightKey = 68;			//D
 	inline constexpr int upKey = 69;			//Q
 	inline constexpr int downKey = 81;			//E
+	inline constexpr int timeSpeedupKey = 334;	//Keypad ADD
+	inline constexpr int timeSlowdownKey = 333;	//Keypad SUBTRACT
 	inline constexpr int exitKey = 256;			//Escape
 
 	//Default window values.

@@ -42,13 +42,15 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
+
+
 }
 
 void Game::Tick()
 {
     //Measure the time that passed since the last frame.
     float now = window.GetElapsedTime();
-    float deltatime = lastTime - now;
+    float deltatime = now - lastTime;
     lastTime = now;
 
     window.ClearBuffers();  //Clears the color and depth buffers.
@@ -78,23 +80,29 @@ void Game::Update(float deltatime)
     camera.Rotate(cameraRotationOffset);
     //Update camera position based on input.
     if (window.IsKeyPressed(settings::forwardKey))
-        camera.Move(Camera::Movement::FORWARD, 0.016f);
+        camera.Move(Camera::Movement::FORWARD, deltatime);
     if (window.IsKeyPressed(settings::backwardKey))
-        camera.Move(Camera::Movement::BACKWARD, 0.016f);
+        camera.Move(Camera::Movement::BACKWARD, deltatime);
     if (window.IsKeyPressed(settings::leftKey))
-        camera.Move(Camera::Movement::LEFT, 0.016f);
+        camera.Move(Camera::Movement::LEFT, deltatime);
     if (window.IsKeyPressed(settings::rightKey))
-        camera.Move(Camera::Movement::RIGHT, 0.016f);
+        camera.Move(Camera::Movement::RIGHT, deltatime);
     if (window.IsKeyPressed(settings::upKey))
-        camera.Move(Camera::Movement::UP, 0.016f);
+        camera.Move(Camera::Movement::UP, deltatime);
     if (window.IsKeyPressed(settings::downKey))
-        camera.Move(Camera::Movement::DOWN, 0.016f);
+        camera.Move(Camera::Movement::DOWN, deltatime);
     
     //Update the planets' transforms.
     for (Planet& planet : planets)
     {
-        planet.Update(deltatime);
+        planet.Update(deltatime * timeSpeed);
     }
+
+    //Update the time speed.
+    if (window.IsKeyPressed(settings::timeSpeedupKey))
+        timeSpeed += settings::timeAdjustSpeed;
+    if (window.IsKeyPressed(settings::timeSlowdownKey))
+        timeSpeed -= settings::timeAdjustSpeed;
 }
 
 void Game::Draw(float deltatime)
