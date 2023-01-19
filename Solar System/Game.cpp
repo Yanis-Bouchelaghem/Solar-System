@@ -9,39 +9,38 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     sphereMesh(settings::meshesPath + "sphere.obj"),
-    //Load textures.
-    sunTexture(settings::texturesPath + "sun.jpg"),
-    mercuryTexture(settings::texturesPath + "mercury.jpg"),
-    venusTexture(settings::texturesPath + "venus.jpg"),
-    earthTexture(settings::texturesPath + "earth.jpg"),
-    marsTexture(settings::texturesPath + "mars.jpg"),
-    jupiterTexture(settings::texturesPath + "jupiter.jpg"),
-    saturnTexture(settings::texturesPath + "saturn.jpg"),
-    uranusTexture(settings::texturesPath + "uranus.jpg"),
-    neptuneTexture(settings::texturesPath + "neptune.jpg"),
     skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
     lastTime = window.GetElapsedTime();
     skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
-    //Initialize the planets
+    //Load the textures and initialize the planets.
     //Sun
-    planets.emplace_back(0, settings::sunScale, 0, settings::sunRotationSpeed);
+    planetTextures.emplace_back(settings::texturesPath + "sun.jpg");
+    planets.emplace_back(0.f, settings::sunScale, 0.f, settings::sunRotationSpeed);
     //Mercury
+    planetTextures.emplace_back(settings::texturesPath + "mercury.jpg");
     planets.emplace_back(settings::mercuryOrbitRadius, settings::mercuryScale, settings::mercuryOrbitSpeed, settings::mercuryRotationSpeed);
     //Venus
+    planetTextures.emplace_back(settings::texturesPath + "venus.jpg");
     planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, settings::venusRotationSpeed);
     //Earth
+    planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
     planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
     //Mars
+    planetTextures.emplace_back(settings::texturesPath + "mars.jpg");
     planets.emplace_back(settings::marsOrbitRadius, settings::marsScale, settings::marsOrbitSpeed, settings::marsRotationSpeed);
     //Jupiter
+    planetTextures.emplace_back(settings::texturesPath + "jupiter.jpg");
     planets.emplace_back(settings::jupiterOrbitRadius, settings::jupiterScale, settings::jupiterOrbitSpeed, settings::jupiterRotationSpeed);
     //Saturn
+    planetTextures.emplace_back(settings::texturesPath + "saturn.jpg");
     planets.emplace_back(settings::saturnOrbitRadius, settings::saturnScale, settings::saturnOrbitSpeed, settings::saturnRotationSpeed);
     //Uranus
+    planetTextures.emplace_back(settings::texturesPath + "uranus.jpg");
     planets.emplace_back(settings::uranusOrbitRadius, settings::uranusScale, settings::uranusOrbitSpeed, settings::uranusRotationSpeed);
     //Neptune
+    planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
 }
 
@@ -91,24 +90,11 @@ void Game::Update(float deltatime)
     if (window.IsKeyPressed(settings::downKey))
         camera.Move(Camera::Movement::DOWN, 0.016f);
     
-    //Calculate sun transforms.
-    sun.ResetModelMatrix();
-    sun.ApplyRotation(float(window.GetElapsedTime() * 5), Camera::worldUp); //Revolves around itself.
-    sun.ApplyScale(glm::vec3{100.0f});
-    //Calculate mercury transforms.
-    mercury.ResetModelMatrix();
-    mercury.ApplyRotation(float(window.GetElapsedTime()) * 50, Camera::worldUp);// Rotates around the sun.
-    mercury.ApplyTranslation({ settings::earthOrbitRadius * 0.6f, 0.0f, 0.0f });
-    mercury.ApplyScale(glm::vec3{ settings::mercuryScale });
-    mercury.ApplyRotation(float(window.GetElapsedTime()) * 90, Camera::worldUp); //Revolves around itself.
-    //Calculate venus transforms.
-    venus.ResetModelMatrix();
-    venus.ApplyRotation(float(window.GetElapsedTime()) * 25, Camera::worldUp);// Rotates around the sun.
-    venus.ApplyTranslation({ settings::earthOrbitRadius * 0.8f, 0.0f, 0.0f });
-    venus.ApplyScale(glm::vec3{ settings::venusScale });
-    venus.ApplyRotation(-float(window.GetElapsedTime()) * 30, Camera::worldUp); //Revolves clockwise around itself.
-    //Calculate earth transforms.
-    earth.Update(deltatime);
+    //Update the planets' transforms.
+    for (Planet& planet : planets)
+    {
+        planet.Update(deltatime);
+    }
 }
 
 void Game::Draw(float deltatime)
@@ -119,18 +105,12 @@ void Game::Draw(float deltatime)
 
     window.UseShader(shaderProgram);
     unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
-    //Draw sun.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * sun.GetModelMatrix());
-    window.DrawActor(sphereMesh, sunTexture);
-    //Draw mercury.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * mercury.GetModelMatrix());
-    window.DrawActor(sphereMesh, mercuryTexture);
-    //Draw venus.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * venus.GetModelMatrix());
-    window.DrawActor(sphereMesh, venusTexture);
-    //Draw earth.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * earth.GetModelMatrix());
-    window.DrawActor(sphereMesh, earthTexture);
+    //Draw the planets
+    for (int i = 0; i < planets.size(); ++i)
+    {
+        shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
+        window.DrawActor(sphereMesh, planetTextures[i]);
+    }
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());

@@ -27,18 +27,9 @@ private:
 	glm::vec2 lastMousePosition;
 	//Load meshes.
 	Mesh sphereMesh;
-	//Load textures.
-	Texture sunTexture;
-	Texture mercuryTexture;
-	Texture venusTexture;
-	Texture earthTexture;
-	Texture marsTexture;
-	Texture jupiterTexture;
-	Texture saturnTexture;
-	Texture uranusTexture;
-	Texture neptuneTexture;
-	Texture skyboxTexture;
+	std::vector<Texture> planetTextures;
 	std::vector<Planet> planets;
 	Actor skyBox;
+	Texture skyboxTexture;
 	float lastTime;
 };

@@ -1,4 +1,4 @@
-#include "Planets.h"
+#include "Planet.h"
 
 Planet::Planet(float orbitRadius, float scale, float orbitSpeedDegrees, float rotationSpeedDegrees)
 	:
