@@ -3,9 +3,11 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "Actor.h"
+#include "Planet.h"
 #include "Camera.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include <vector>
 //A class that represents the game simulation and handles the logic/render loop.
 class Game
 {
@@ -15,22 +17,20 @@ public:
 	void Tick();				//Updates the game and draws a frame.
 	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:
-	void Update();
-	void Draw();
+	void Update(float deltatime);
+	void Draw(float deltatime);
 private:
 	Window window;	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 private:
 	ShaderProgram shaderProgram;
 	Camera camera;
-	glm::vec2 lastMousePosition;
 	//Load meshes.
 	Mesh sphereMesh;
-	//Load textures.
-	Texture sunTexture;
-	Texture earthTexture;
-	Texture skyboxTexture;
-	//Create actors.
-	Actor sun;
-	Actor earth;
+	std::vector<Texture> planetTextures;
+	std::vector<Planet> planets;
 	Actor skyBox;
+	Texture skyboxTexture;
+	glm::vec2 lastMousePosition;
+	float lastTime;
+	float timeSpeed = 1.0f;
 };

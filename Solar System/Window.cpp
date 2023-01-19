@@ -43,7 +43,7 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     {
         glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
-    //Set the window resize callback function
+    //Make sure that the viewport size is updated when window is resized.
     glfwSetFramebufferSizeCallback(window.get(),
         [](GLFWwindow* window, int width, int height) {glViewport(0, 0, width, height); });
 }
@@ -59,7 +59,7 @@ void Window::UseShader(const ShaderProgram& shaderProgram)
     glUseProgram(shaderProgram.GetID());
 }
 
-void Window::DrawActor(const Actor& actor, const Mesh& mesh, const Texture& texture)
+void Window::DrawActor(const Mesh& mesh, const Texture& texture)
 {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.GetID());
@@ -67,10 +67,10 @@ void Window::DrawActor(const Actor& actor, const Mesh& mesh, const Texture& text
     glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
 }
 
-void Window::DrawActor(const Actor& actor, const Mesh& mesh, const Texture& texture, const ShaderProgram& shaderProgram)
+void Window::DrawActor(const Mesh& mesh, const Texture& texture, const ShaderProgram& shaderProgram)
 {
     UseShader(shaderProgram);
-    DrawActor(actor, mesh, texture);
+    DrawActor(mesh, texture);
 }
 
 void Window::ClearBuffers()
@@ -103,9 +103,9 @@ bool Window::IsKeyPressed(int key) const
     return glfwGetKey(window.get(), key) == GLFW_PRESS;
 }
 
-double Window::GetElapsedTime() const
+float Window::GetElapsedTime() const
 {
-    return glfwGetTime();
+    return (float)glfwGetTime();
 }
 
 glm::vec2 Window::GetMousePosition() const

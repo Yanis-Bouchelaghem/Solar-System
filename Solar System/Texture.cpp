@@ -3,7 +3,7 @@
 #include "stb_image.h"
 #include <iostream>
 
-Texture::Texture(const char* texturePath)
+Texture::Texture(std::string texturePath)
 {
     //Create a texture buffer.
     glGenTextures(1, &textureID);
@@ -14,7 +14,7 @@ Texture::Texture(const char* texturePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     //Load and generate the texture.
-    unsigned char* data = stbi_load(texturePath, &width, &height, &channelsCount, 0);
+    unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &channelsCount, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -28,9 +28,41 @@ Texture::Texture(const char* texturePath)
     stbi_image_free(data);
 }
 
+Texture::Texture(Texture&& other) noexcept
+    :
+    textureID(other.textureID),
+    width(other.width),
+    height(other.height),
+    channelsCount(other.channelsCount)
+{
+    other.textureID = -1;
+    other.width = -1;
+    other.height = -1;
+    other.channelsCount = -1;
+}
+
+Texture& Texture::operator=(Texture&& other) noexcept
+{
+    if (this != &other)
+    {
+        glDeleteTextures(1, &textureID); //Free the texture held by this object.
+        //Take the texture from the other object.
+        textureID = other.textureID;
+        width = other.width;
+        height = other.height;
+        channelsCount = other.channelsCount;
+        other.textureID = -1;
+        other.width = -1;
+        other.height = -1;
+        other.channelsCount = -1;
+    }
+    return *this;
+}
+
 Texture::~Texture() noexcept
 {
-    glDeleteTextures(1, &textureID);
+    if(textureID != -1)
+        glDeleteTextures(1, &textureID);
 }
 
 unsigned int Texture::GetID() const

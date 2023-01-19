@@ -1,10 +1,9 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
-Camera::Camera(glm::vec3 position, glm::vec3 worldUp, float movementSpeed, float yaw, float pitch, float maxPitch,
+Camera::Camera(glm::vec3 position, float movementSpeed, float yaw, float pitch, float maxPitch,
     float mouseSensitivity, float zoom, float screenRatio, float nearPlaneDistance, float farPlaneDistance)
     :
     position(position),
-    worldUp(worldUp),
     yaw(yaw),
     pitch(pitch),
     maxPitch(maxPitch),
