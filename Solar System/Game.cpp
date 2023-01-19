@@ -9,7 +9,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     sphereMesh(settings::meshesPath + "sphere.obj"),
-    //Load meshes.
+    //Load textures.
     sunTexture(settings::texturesPath + "sun.jpg"),
     mercuryTexture(settings::texturesPath + "mercury.jpg"),
     venusTexture(settings::texturesPath + "venus.jpg"),
@@ -19,17 +19,25 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     saturnTexture(settings::texturesPath + "saturn.jpg"),
     uranusTexture(settings::texturesPath + "uranus.jpg"),
     neptuneTexture(settings::texturesPath + "neptune.jpg"),
-    skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
+    skyboxTexture(settings::texturesPath + "stars_milkyway.jpg"),
+    //Initialize the planets.
+    earth(settings::earthOrbitRadius, settings::earthScale, 90, 180)
 {
     lastMousePosition = window.GetMousePosition();
+    lastTime = window.GetElapsedTime();
     skyBox.ApplyScale(glm::vec3{ settings::cameraFarPlaneDistance });
 }
 
 void Game::Tick()
 {
+    //Measure the time that passed since the last frame.
+    float now = window.GetElapsedTime();
+    float deltatime = lastTime - now;
+    lastTime = now;
+
     window.ClearBuffers();  //Clears the color and depth buffers.
-    Update();
-    Draw();
+    Update(deltatime);
+    Draw(deltatime);
     window.SwapBuffers();	//Swap the current buffer to display it.
     window.PollEvents();    //Process the pending window events.
 }
@@ -39,7 +47,7 @@ bool Game::ShouldClose() const
     return window.ShouldClose();
 }
 
-void Game::Update()
+void Game::Update(float deltatime)
 {
     //Logic goes here.
     //Check if window should be closed.
@@ -52,7 +60,6 @@ void Game::Update()
     glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
     lastMousePosition = mousePosition;
     camera.Rotate(cameraRotationOffset);
-    ///////////////////////////TODO : Implement deltatime.
     //Update camera position based on input.
     if (window.IsKeyPressed(settings::forwardKey))
         camera.Move(Camera::Movement::FORWARD, 0.016f);
@@ -84,14 +91,10 @@ void Game::Update()
     venus.ApplyScale(glm::vec3{ settings::venusScale });
     venus.ApplyRotation(-float(window.GetElapsedTime()) * 30, Camera::worldUp); //Revolves clockwise around itself.
     //Calculate earth transforms.
-    earth.ResetModelMatrix();
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Rotates around the sun.
-    earth.ApplyTranslation({ settings::earthOrbitRadius, 0.0f, 0.0f });
-    earth.ApplyScale(glm::vec3{ settings::earthScale });
-    earth.ApplyRotation(float(window.GetElapsedTime()) * 20, Camera::worldUp); //Revolves around itself.
+    earth.Update(deltatime);
 }
 
-void Game::Draw()
+void Game::Draw(float deltatime)
 {
     //Drawing goes here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
@@ -101,19 +104,19 @@ void Game::Draw()
     unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
     //Draw sun.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * sun.GetModelMatrix());
-    window.DrawActor(sun, sphereMesh, sunTexture);
+    window.DrawActor(sphereMesh, sunTexture);
     //Draw mercury.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * mercury.GetModelMatrix());
-    window.DrawActor(mercury, sphereMesh, mercuryTexture);
+    window.DrawActor(sphereMesh, mercuryTexture);
     //Draw venus.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * venus.GetModelMatrix());
-    window.DrawActor(venus, sphereMesh, venusTexture);
+    window.DrawActor(sphereMesh, venusTexture);
     //Draw earth.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * earth.GetModelMatrix());
-    window.DrawActor(earth, sphereMesh, earthTexture);
+    window.DrawActor(sphereMesh, earthTexture);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
-    window.DrawActor(skyBox, sphereMesh, skyboxTexture);
+    window.DrawActor(sphereMesh, skyboxTexture);
 
 }

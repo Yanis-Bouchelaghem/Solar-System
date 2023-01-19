@@ -3,9 +3,11 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "Actor.h"
+#include "Planet.h"
 #include "Camera.h"
 #include "Mesh.h"
 #include "Texture.h"
+
 //A class that represents the game simulation and handles the logic/render loop.
 class Game
 {
@@ -15,8 +17,8 @@ public:
 	void Tick();				//Updates the game and draws a frame.
 	bool ShouldClose() const;	//Returns whether or not the window is flagged for closing.
 private:
-	void Update();
-	void Draw();
+	void Update(float deltatime);
+	void Draw(float deltatime);
 private:
 	Window window;	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 private:
@@ -40,11 +42,12 @@ private:
 	Actor sun;
 	Actor mercury;
 	Actor venus;
-	Actor earth;
+	Planet earth;
 	Actor mars;
 	Actor jupiter;
 	Actor saturn;
 	Actor uranus;
 	Actor neptune;
 	Actor skyBox;
+	float lastTime;
 };

@@ -33,7 +33,7 @@ namespace settings
 	inline constexpr int windowWidth = 1280;				//The width of the window.
 	inline constexpr int windowHeight = 720;				//The height of the window.
 	inline constexpr int viewportX = 0;						//The left x-coordinate of the viewport rectangle (from left of window).
-	inline constexpr int viewportY = 0;						//The left y-coordinate of the viewport rectangle (from bottom of window).
+	inline constexpr int viewportY = 0;						//The bottom y-coordinate of the viewport rectangle (from bottom of window).
 	inline constexpr int viewportWidth = 1280;				//The width of the viewport rectangle (from left of window).
 	inline constexpr int viewportHeight = 720;				//The height of the viewport rectangle (from bottom of window).
 	inline constexpr char windowTitle[] = "Solar system";	//The title of the window.
