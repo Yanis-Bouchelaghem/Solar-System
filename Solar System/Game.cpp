@@ -23,7 +23,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     planets.emplace_back(settings::mercuryOrbitRadius, settings::mercuryScale, settings::mercuryOrbitSpeed, settings::mercuryRotationSpeed);
     //Venus
     planetTextures.emplace_back(settings::texturesPath + "venus.jpg");
-    planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, settings::venusRotationSpeed);
+    planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, -settings::venusRotationSpeed);
     //Earth
     planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
     planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
@@ -38,7 +38,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     planets.emplace_back(settings::saturnOrbitRadius, settings::saturnScale, settings::saturnOrbitSpeed, settings::saturnRotationSpeed);
     //Uranus
     planetTextures.emplace_back(settings::texturesPath + "uranus.jpg");
-    planets.emplace_back(settings::uranusOrbitRadius, settings::uranusScale, settings::uranusOrbitSpeed, settings::uranusRotationSpeed);
+    planets.emplace_back(settings::uranusOrbitRadius, settings::uranusScale, settings::uranusOrbitSpeed, -settings::uranusRotationSpeed);
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
