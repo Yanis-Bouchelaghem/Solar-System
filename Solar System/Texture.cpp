@@ -22,7 +22,7 @@ Texture::Texture(std::string texturePath)
     }
     else
     {
-        std::cout << "Failed to load texture." << texturePath << std::endl;
+        std::cout << "Failed to load texture : " << texturePath << std::endl;
         exit(EXIT_FAILURE);
     }
     stbi_image_free(data);
@@ -35,33 +35,33 @@ Texture::Texture(Texture&& other) noexcept
     height(other.height),
     channelsCount(other.channelsCount)
 {
-    other.textureID = -1;
-    other.width = -1;
-    other.height = -1;
-    other.channelsCount = -1;
+    other.textureID = 0;
+    other.width = 0;
+    other.height = 0;
+    other.channelsCount = 0;
 }
 
 Texture& Texture::operator=(Texture&& other) noexcept
 {
-    if (this != &other)
+    if (this != &other) //Check for self-assignment.
     {
-        glDeleteTextures(1, &textureID); //Free the texture held by this object.
-        //Take the texture from the other object.
+        glDeleteTextures(1, &textureID); //Free the texture owned by this object.
+        //Pilfer the texture data from the other object.
         textureID = other.textureID;
         width = other.width;
         height = other.height;
         channelsCount = other.channelsCount;
-        other.textureID = -1;
-        other.width = -1;
-        other.height = -1;
-        other.channelsCount = -1;
+        other.textureID = 0;
+        other.width = 0;
+        other.height = 0;
+        other.channelsCount = 0;
     }
     return *this;
 }
 
 Texture::~Texture() noexcept
 {
-    if(textureID != -1)
+    if(textureID != 0)
         glDeleteTextures(1, &textureID);
 }
 

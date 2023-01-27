@@ -15,7 +15,7 @@ public:
 	int GetHeight() const;
 	int GetChannelsCount() const;
 private:
-	unsigned int textureID = -1;
+	unsigned int textureID;
 	int width;
 	int height;
 	int channelsCount;
