@@ -42,13 +42,11 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
-
-
 }
 
 void Game::Tick()
 {
-    //Measure the time that passed since the last frame.
+    //Measure the time that has passed since the previous frame.
     float now = window.GetElapsedTime();
     float deltatime = now - lastTime;
     lastTime = now;
@@ -103,6 +101,11 @@ void Game::Update(float deltatime)
         timeSpeed += settings::timeAdjustSpeed;
     if (window.IsKeyPressed(settings::timeSlowdownKey))
         timeSpeed -= settings::timeAdjustSpeed;
+
+    if (window.IsKeyPressedOnce(settings::wireframeModeKey))
+    {
+        window.ToggleWireframe();
+    }
 }
 
 void Game::Draw(float deltatime)

@@ -23,12 +23,17 @@ public:
 	void SwapBuffers();					//Swaps the buffers to display a frame.
 	void PollEvents() const;			//Processes the pending window events.
 	void Close();						//Flags the window for closing.
+	void ToggleWireframe(); //Enables or disables wireframe mode.
+public:
 	bool ShouldClose() const;			//Returns whether or not the window is flagged for closing.
-	bool IsKeyPressed(int key) const;	//Returns whether or not the given key is currently pressed.
+	bool IsKeyPressed(int key) const;	//Returns true if the given key is currently pressed, false otherwise.
+	bool IsKeyPressedOnce(int key);		//Returns true when key is pressed, then false until the key is released and pressed again.
 	float GetElapsedTime() const;		//Returns the time elapsed since the creation of the window (in seconds).
 	glm::vec2 GetMousePosition() const;	//Returns the mouse position in screen coordinates.
 private:
 	//The GLFW window is a third party struct that lacks a destructor, so a unique pointer is used to safely manage
 	//it and automatically destroy it using a custom deleter. Preventing any potential memory leaks.
 	std::unique_ptr<GLFWwindow, std::function<void(GLFWwindow*)>> window;
+	bool keyStates[349] = { false };//Whether a keyboard key is in the pressed state or not.
+	bool wireframeMode = false;
 };

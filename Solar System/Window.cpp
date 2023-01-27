@@ -7,7 +7,6 @@
 Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(nullptr, [](GLFWwindow* window) { glfwDestroyWindow(window); }) //Set the deleter for the managed window.
-
 {
     //Initialize GLFW.
     glfwInit();
@@ -93,6 +92,20 @@ void Window::Close()
     glfwSetWindowShouldClose(window.get(), true);
 }
 
+void Window::ToggleWireframe()
+{
+    if (wireframeMode)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        wireframeMode = false;
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        wireframeMode = true;
+    }
+}
+
 bool Window::ShouldClose() const
 {
     return glfwWindowShouldClose(window.get());
@@ -101,6 +114,27 @@ bool Window::ShouldClose() const
 bool Window::IsKeyPressed(int key) const
 {
     return glfwGetKey(window.get(), key) == GLFW_PRESS;
+}
+
+bool Window::IsKeyPressedOnce(int key)
+{
+    if (IsKeyPressed(key))
+    {
+        if (keyStates[key])
+        {
+            return false;
+        }
+        else
+        {
+            keyStates[key] = true;
+            return true;
+        }
+    }
+    else
+    {
+        keyStates[key] = false;
+    }
+    return false;
 }
 
 float Window::GetElapsedTime() const

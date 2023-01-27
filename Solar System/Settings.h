@@ -62,6 +62,7 @@ namespace settings
 	inline constexpr int rightKey = 68;			//D
 	inline constexpr int upKey = 69;			//Q
 	inline constexpr int downKey = 81;			//E
+	inline constexpr int wireframeModeKey = 84;	//T
 	inline constexpr int timeSpeedupKey = 334;	//Keypad ADD
 	inline constexpr int timeSlowdownKey = 333;	//Keypad SUBTRACT
 	inline constexpr int exitKey = 256;			//Escape
