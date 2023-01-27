@@ -28,5 +28,5 @@ void Planet::Update(float deltatime)
 	ApplyRotation(currentOrbitDegrees, { 0.f,1.f,0.f });// Rotates around the sun.
 	ApplyTranslation({ orbitRadius, 0.0f, 0.0f });
 	ApplyScale(glm::vec3{ scale });
-	ApplyRotation(currentRotationDegrees, {0.f,1.f,0.f}); //Revolves clockwise around itself.
+	ApplyRotation(currentRotationDegrees, {0.f,1.f,0.f}); //Revolves around itself.
 }

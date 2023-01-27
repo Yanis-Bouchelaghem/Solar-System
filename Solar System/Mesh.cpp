@@ -39,12 +39,54 @@ Mesh::Mesh(std::string meshPath)
 	glEnableVertexAttribArray(2);
 }
 
+Mesh::Mesh(Mesh&& other) noexcept
+	:
+	VAO(other.VAO),
+	VBOVertex(other.VBOVertex),
+	VBOTexture(other.VBOTexture),
+	VBONormals(other.VBONormals),
+	vertexCount(other.vertexCount)
+{
+	other.VAO = 0;
+	other.VBOVertex = 0;
+	other.VBOTexture = 0;
+	other.VBONormals = 0;
+	other.vertexCount = 0;
+}
+
+Mesh& Mesh::operator=(Mesh&& other) noexcept
+{
+	if (this != &other)
+	{
+		//Free the data held by this object.
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBOVertex);
+		glDeleteBuffers(1, &VBOTexture);
+		glDeleteBuffers(1, &VBONormals);
+		//Pilfer the data from the other object.
+		VAO = other.VAO;
+		VBOVertex = other.VBOVertex;
+		VBOTexture = other.VBOTexture;
+		VBONormals = other.VBONormals;
+		vertexCount = other.vertexCount;
+		other.VAO = 0;
+		other.VBOVertex = 0;
+		other.VBOTexture = 0;
+		other.VBONormals = 0;
+		other.vertexCount = 0;
+	}
+	return *this;
+}
+
 Mesh::~Mesh() noexcept
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBOVertex);
-	glDeleteBuffers(1, &VBOTexture);
-	glDeleteBuffers(1, &VBONormals);
+	if (VAO != 0)
+	{
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBOVertex);
+		glDeleteBuffers(1, &VBOTexture);
+		glDeleteBuffers(1, &VBONormals);
+	}
 }
 
 unsigned int Mesh::GetVAO() const
