@@ -61,14 +61,11 @@ void Camera::Rotate(glm::vec2 rotationOffset, bool constrainPitch)
     UpdateCameraVectors();
 }
 
-void Camera::ProcessMouseScroll(float yoffset)
+void Camera::AddMovementSpeed(float speed)
 {
-    zoom -= (float)yoffset;
-    if (zoom < 1.0f)
-        zoom = 1.0f;
-    if (zoom > 45.0f)
-        zoom = 45.0f;
+    movementSpeed += speed;
 }
+
 
 void Camera::UpdateCameraVectors()
 {

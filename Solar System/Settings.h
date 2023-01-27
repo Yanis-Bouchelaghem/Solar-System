@@ -63,6 +63,9 @@ namespace settings
 	inline constexpr int upKey = 69;			//Q
 	inline constexpr int downKey = 81;			//E
 	inline constexpr int wireframeModeKey = 84;	//T
+	inline constexpr int cameraSpeedupKey = 86;	//V
+	inline constexpr int cameraSlowdownKey = 67;//C
+	inline constexpr int pauseKey = 80;			//P
 	inline constexpr int timeSpeedupKey = 334;	//Keypad ADD
 	inline constexpr int timeSlowdownKey = 333;	//Keypad SUBTRACT
 	inline constexpr int exitKey = 256;			//Escape
@@ -87,6 +90,7 @@ namespace settings
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
 	inline constexpr float cameraFarPlaneDistance = 10000.0f;//The distance of the far plane from the camera.
 	inline constexpr float cameraMaxPitch = 70.0f;			//Sets the camera's maximum pitch (when looking up and down).
+	inline constexpr float cameraSpeedupRate = 50.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
 
 	//Precalculate some values for convenience.
 	inline constexpr float screenRatio = float(windowWidth) / float(windowHeight);

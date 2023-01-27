@@ -24,7 +24,6 @@ private:
 private:
 	ShaderProgram shaderProgram;
 	Camera camera;
-	//Load meshes.
 	Mesh sphereMesh;
 	std::vector<Texture> planetTextures;
 	std::vector<Planet> planets;
@@ -33,4 +32,5 @@ private:
 	glm::vec2 lastMousePosition;
 	float lastTime;
 	float timeSpeed = 1.0f;
+	bool isPaused = false;
 };

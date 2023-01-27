@@ -23,8 +23,7 @@ public:
     glm::mat4 GetPerspectiveMatrix() const; //Returns the perspective matrix using the current zoom, ratio and near/far plane properties.
     void Move(Movement direction, float deltaTime); //Moves the camera in the given direction.
     void Rotate(glm::vec2 rotationOffset, bool constrainPitch = true);//Rotates the camera according to a given rotation.
-    // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void ProcessMouseScroll(float yoffset);
+    void AddMovementSpeed(float speed);
 private:
     void UpdateCameraVectors(); //Calculates the front vector from the Camera's (updated) Euler Angles
 private:

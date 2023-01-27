@@ -65,18 +65,17 @@ bool Game::ShouldClose() const
 
 void Game::Update(float deltatime)
 {
-    //Logic goes here.
     //Check if window should be closed.
     if(window.IsKeyPressed(settings::exitKey))
     {
         window.Close();
     }
-    //Calculate camera rotation.
+    //Update camera rotation.
     glm::vec2 mousePosition = window.GetMousePosition();
     glm::vec2 cameraRotationOffset{mousePosition.x - lastMousePosition.x, lastMousePosition.y - mousePosition.y };
     lastMousePosition = mousePosition;
     camera.Rotate(cameraRotationOffset);
-    //Update camera position based on input.
+    //Update camera position.
     if (window.IsKeyPressed(settings::forwardKey))
         camera.Move(Camera::Movement::FORWARD, deltatime);
     if (window.IsKeyPressed(settings::backwardKey))
@@ -89,23 +88,39 @@ void Game::Update(float deltatime)
         camera.Move(Camera::Movement::UP, deltatime);
     if (window.IsKeyPressed(settings::downKey))
         camera.Move(Camera::Movement::DOWN, deltatime);
-    
-    //Update the planets' transforms.
-    for (Planet& planet : planets)
-    {
-        planet.Update(deltatime * timeSpeed);
-    }
-
-    //Update the time speed.
-    if (window.IsKeyPressed(settings::timeSpeedupKey))
-        timeSpeed += settings::timeAdjustSpeed;
-    if (window.IsKeyPressed(settings::timeSlowdownKey))
-        timeSpeed -= settings::timeAdjustSpeed;
 
     if (window.IsKeyPressedOnce(settings::wireframeModeKey))
     {
         window.ToggleWireframe();
     }
+    if (window.IsKeyPressedOnce(settings::cameraSpeedupKey))
+    {
+        camera.AddMovementSpeed(settings::cameraSpeedupRate);
+    }
+    if (window.IsKeyPressedOnce(settings::cameraSlowdownKey))
+    {
+        camera.AddMovementSpeed(-settings::cameraSpeedupRate);
+    }
+    if (window.IsKeyPressedOnce(settings::pauseKey))
+    {
+        isPaused = !isPaused;
+    }
+
+    if (!isPaused)
+    {
+        //Update the planets' transforms.
+        for (Planet& planet : planets)
+        {
+            planet.Update(deltatime * timeSpeed);
+        }
+
+        //Update the time speed.
+        if (window.IsKeyPressed(settings::timeSpeedupKey))
+            timeSpeed += settings::timeAdjustSpeed;
+        if (window.IsKeyPressed(settings::timeSlowdownKey))
+            timeSpeed -= settings::timeAdjustSpeed;
+    }
+
 }
 
 void Game::Draw(float deltatime)
