@@ -84,7 +84,7 @@ void Game::Update(float deltatime)
         camera.Move(Camera::Movement::LEFT, deltatime);
     if (window.IsKeyPressed(settings::rightKey))
         camera.Move(Camera::Movement::RIGHT, deltatime);
-    if (window.IsKeyPressed(settings::upKey))
+    if (window.IsKeyPressed(settings::upKey1) || window.IsKeyPressed(settings::upKey2))
         camera.Move(Camera::Movement::UP, deltatime);
     if (window.IsKeyPressed(settings::downKey))
         camera.Move(Camera::Movement::DOWN, deltatime);
@@ -132,7 +132,7 @@ void Game::Draw(float deltatime)
     window.UseShader(shaderProgram);
     unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
     //Draw the planets
-    for (int i = 0; i < planets.size(); ++i)
+    for (size_t i = 0; i < planets.size(); ++i)
     {
         shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);

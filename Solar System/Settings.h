@@ -60,8 +60,9 @@ namespace settings
 	inline constexpr int leftKey = 65;			//A
 	inline constexpr int backwardKey = 83;		//S
 	inline constexpr int rightKey = 68;			//D
-	inline constexpr int upKey = 69;			//Q
-	inline constexpr int downKey = 81;			//E
+	inline constexpr int upKey1 = 69;			//E
+	inline constexpr int upKey2 = 32;			//Space
+	inline constexpr int downKey = 81;			//Q
 	inline constexpr int wireframeModeKey = 84;	//T
 	inline constexpr int cameraSpeedupKey = 86;	//V
 	inline constexpr int cameraSlowdownKey = 67;//C
