@@ -65,6 +65,7 @@ bool Game::ShouldClose() const
 
 void Game::Update(float deltatime)
 {
+    //Logic update happens here.
     //Check if window should be closed.
     if(window.IsKeyPressed(settings::exitKey))
     {
@@ -88,11 +89,12 @@ void Game::Update(float deltatime)
         camera.Move(Camera::Movement::UP, deltatime);
     if (window.IsKeyPressed(settings::downKey))
         camera.Move(Camera::Movement::DOWN, deltatime);
-
+    //Update wireframe mode.
     if (window.IsKeyPressedOnce(settings::wireframeModeKey))
     {
         window.ToggleWireframe();
     }
+    //Update camera speed.
     if (window.IsKeyPressedOnce(settings::cameraSpeedupKey))
     {
         camera.AddMovementSpeed(settings::cameraSpeedupRate);
@@ -120,12 +122,11 @@ void Game::Update(float deltatime)
         if (window.IsKeyPressed(settings::timeSlowdownKey))
             timeSpeed -= settings::timeAdjustSpeed;
     }
-
 }
 
 void Game::Draw(float deltatime)
 {
-    //Drawing goes here.
+    //Drawing happens here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 

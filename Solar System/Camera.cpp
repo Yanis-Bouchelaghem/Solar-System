@@ -1,5 +1,7 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <algorithm>
+
 Camera::Camera(glm::vec3 position, float movementSpeed, float yaw, float pitch, float maxPitch,
     float mouseSensitivity, float zoom, float screenRatio, float nearPlaneDistance, float farPlaneDistance)
     :
@@ -63,7 +65,7 @@ void Camera::Rotate(glm::vec2 rotationOffset, bool constrainPitch)
 
 void Camera::AddMovementSpeed(float speed)
 {
-    movementSpeed += speed;
+    movementSpeed = std::max(movementSpeed + speed, 0.0f);
 }
 
 

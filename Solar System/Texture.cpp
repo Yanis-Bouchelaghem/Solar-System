@@ -5,6 +5,7 @@
 
 Texture::Texture(std::string texturePath)
 {
+    std::cout << "Loading texture: " << texturePath << "\n";
     //Create a texture buffer.
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -22,7 +23,7 @@ Texture::Texture(std::string texturePath)
     }
     else
     {
-        std::cout << "Failed to load texture : " << texturePath << std::endl;
+        std::cout << "Failed to load texture : " << texturePath << "\n";
         exit(EXIT_FAILURE);
     }
     stbi_image_free(data);
