@@ -26,3 +26,8 @@ const glm::mat4& Actor::GetModelMatrix() const
 	return modelMatrix;
 }
 
+glm::mat3 Actor::GetNormalMatrix() const
+{
+	return glm::mat3(glm::transpose(glm::inverse(modelMatrix)));
+}
+

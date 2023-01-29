@@ -42,10 +42,12 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
-    //Setup the ambient light color.
+    //Setup the lighting.
     window.UseShader(shaderProgram);
+    unsigned int lightPositionUniform = shaderProgram.GetUniformID("lightPos");
     unsigned int ambientColorUniform = shaderProgram.GetUniformID("ambientColor");
     shaderProgram.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
+    shaderProgram.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
 }
 
 void Game::Tick()
@@ -136,15 +138,21 @@ void Game::Draw(float deltatime)
 
     window.UseShader(shaderProgram);
     unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
+    unsigned int modelMatrixUniform = shaderProgram.GetUniformID("modelMatrix");
+    unsigned int normalMatrixUniform = shaderProgram.GetUniformID("normalMatrix");
     //Draw the planets
     for (size_t i = 0; i < planets.size(); ++i)
     {
         shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
+        shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
+        shaderProgram.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
+    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform, skyBox.GetModelMatrix());
+    shaderProgram.SendUniform<glm::mat4>(normalMatrixUniform, skyBox.GetNormalMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
 
 }

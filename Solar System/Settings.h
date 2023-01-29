@@ -11,7 +11,7 @@ namespace settings
 
 	//Simulation settings.
 	//Lighting.
-	inline constexpr glm::vec3 ambientColor = {1.0,1.0,1.0};
+	inline constexpr glm::vec3 ambientColor = {0.1f,0.1f,0.1f};
 	//Radiuses.
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
 	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
