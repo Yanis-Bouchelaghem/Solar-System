@@ -28,6 +28,11 @@ public:
 		glUniformMatrix4fv(uniformID, 1, GL_FALSE, &value[0][0]);
 	}
 	template<>
+	void SendUniform<glm::vec3>(unsigned int uniformID, const glm::vec3& value) //Send a vector of dimension 3.
+	{
+		glUniform3fv(uniformID, 1, &value[0]);
+	}
+	template<>
 	void SendUniform<unsigned int>(unsigned int uniformID, const unsigned int& value) //Send an unsigned integer.
 	{
 		glUniform1ui(uniformID, value);

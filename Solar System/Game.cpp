@@ -42,6 +42,10 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
+    //Setup the ambient light color.
+    window.UseShader(shaderProgram);
+    unsigned int ambientColorUniform = shaderProgram.GetUniformID("ambientColor");
+    shaderProgram.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
 }
 
 void Game::Tick()
