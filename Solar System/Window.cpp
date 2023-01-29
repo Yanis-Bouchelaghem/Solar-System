@@ -12,6 +12,7 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -37,6 +38,8 @@ Window::Window(int windowWidth, int windowHeight, int viewportX, int viewportY, 
     //Enable depth to remove hidden parts.
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    //Enable MSAA (anti-aliasing).
+    glEnable(GL_MULTISAMPLE);
     //Capture the mouse.
     if constexpr (settings::captureMouse)
     {
