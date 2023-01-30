@@ -27,7 +27,7 @@ public:
 		glUniformMatrix4fv(GetUniformID(uniformName), 1, GL_FALSE, &value[0][0]);
 	}
 	template<>
-	void SendUniform<glm::mat3>(std::string uniformName, const glm::mat3& value)
+	void SendUniform<glm::mat3>(std::string uniformName, const glm::mat3& value) //Send a matrix of dimension 3
 	{
 		glUniformMatrix3fv(GetUniformID(uniformName), 1, GL_FALSE, &value[0][0]);
 	}
@@ -40,6 +40,11 @@ public:
 	void SendUniform<int>(std::string uniformName, const int& value) //Send an integer.
 	{
 		glUniform1i(GetUniformID(uniformName), value);
+	}
+	template<>
+	void SendUniform<float>(std::string uniformName, const float& value) //Send a float.
+	{
+		glUniform1f(GetUniformID(uniformName), value);
 	}
 private:
 	unsigned int GetUniformID(std::string uniformName) const;	//Returns the identifier of the given uniform.

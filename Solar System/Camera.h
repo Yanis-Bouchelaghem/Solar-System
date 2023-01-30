@@ -24,6 +24,7 @@ public:
     void Move(Movement direction, float deltaTime); //Moves the camera in the given direction.
     void Rotate(glm::vec2 rotationOffset, bool constrainPitch = true);//Rotates the camera according to a given rotation.
     void AddMovementSpeed(float speed);     //Adds the given speed to the movement of the camera (speed cannot be reduced below 0).
+    const glm::vec3& GetPosition() const;
 private:
     void UpdateCameraVectors(); //Calculates the front vector from the Camera's (updated) Euler Angles
 private:

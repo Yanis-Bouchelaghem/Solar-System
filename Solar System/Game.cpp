@@ -12,6 +12,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     sphereMesh(settings::meshesPath + "sphere.obj"),
     earthNightTexture(settings::texturesPath + "earth_night.jpg"),
+    earthSpecularTexture(settings::texturesPath + "earth_specular.jpg"),
     skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
@@ -49,11 +50,16 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     window.UseShader(defaultShader);
     defaultShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     defaultShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
+    defaultShader.SendUniform<glm::vec3>("sunlightColor", settings::sunlightColor);
     window.UseShader(earthShader);
-    earthShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     earthShader.SendUniform<glm::vec3>("ambientColor", settings::earthAmbientColor);
-    earthShader.SendUniform<int>("textureSampler1", 0);
-    earthShader.SendUniform<int>("textureSampler2", 1);
+    earthShader.SendUniform<glm::vec3>("sunlightColor", settings::sunlightColor);
+    earthShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<float>("specularStrength", settings::earthSpecularStrength);
+    earthShader.SendUniform<float>("specularShininess", settings::earthSpecularShininess);
+    earthShader.SendUniform<int>("textureEarth", 0); //Assign locations to the texture samplers.
+    earthShader.SendUniform<int>("textureEarthNight", 1);
+    earthShader.SendUniform<int>("textureSpecular", 2);
 }
 
 void Game::Tick()
@@ -155,7 +161,8 @@ void Game::Draw(float deltatime)
     earthShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[1].GetModelMatrix());
     earthShader.SendUniform<glm::mat4>("modelMatrix", planets[1].GetModelMatrix());
     earthShader.SendUniform<glm::mat3>("normalMatrix", planets[1].GetNormalMatrix());
-    window.DrawActor(sphereMesh, planetTextures[1], earthNightTexture);
+    earthShader.SendUniform<glm::vec3>("viewPosition", camera.GetPosition());
+    window.DrawActor(sphereMesh, planetTextures[1], earthNightTexture, earthSpecularTexture);
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);
     //Draw sun.

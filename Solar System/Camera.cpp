@@ -68,6 +68,11 @@ void Camera::AddMovementSpeed(float speed)
     movementSpeed = std::max(movementSpeed + speed, 0.0f);
 }
 
+const glm::vec3& Camera::GetPosition() const
+{
+    return position;
+}
+
 
 void Camera::UpdateCameraVectors()
 {
