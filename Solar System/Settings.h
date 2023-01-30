@@ -11,10 +11,11 @@ namespace settings
 
 	//Simulation settings.
 	//Lighting.
-	inline constexpr glm::vec3 sunlightColor = {1.f,1.f,1.f};
-	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};
-	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};
-	inline constexpr float earthSpecularStrength = 1.33f;
+	inline constexpr glm::vec3 sunlightColor = {1.f,1.f,1.f};//The color that the sun casts on the planets.
+	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};//The ambient color of all planets (except earth).
+	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};//The ambient color of the earth.
+	inline constexpr float earthSpecularStrength = 3.5f;//Controls the strength of the specular of the ware's surface of earth.
+	inline constexpr float earthSpecularShininess = 16;	//Controls the shininess of the water's surface of earth (powers of 2).
 	//Radiuses.
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
 	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
