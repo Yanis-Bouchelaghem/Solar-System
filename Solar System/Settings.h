@@ -14,6 +14,7 @@ namespace settings
 	inline constexpr glm::vec3 sunlightColor = {1.f,1.f,1.f};
 	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};
 	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};
+	inline constexpr float earthSpecularStrength = 1.33f;
 	//Radiuses.
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
 	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
