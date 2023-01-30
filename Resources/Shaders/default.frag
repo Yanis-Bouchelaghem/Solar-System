@@ -1,9 +1,10 @@
 #version 330 core
-out vec4 FragColor;
 
 in vec2 textureCoordinate;
 in vec3 normal;
 in vec3 fragmentPosition;
+
+out vec4 FragColor;
 
 uniform sampler2D textureSampler;
 uniform vec3 ambientColor;

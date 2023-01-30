@@ -106,5 +106,11 @@
     <None Include="..\Resources\Shaders\default.vert">
       <Filter>Resources\shaders</Filter>
     </None>
+    <None Include="..\Resources\Shaders\noLight.frag">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\noLight.vert">
+      <Filter>Resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

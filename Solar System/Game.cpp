@@ -5,6 +5,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     defaultShader(settings::shadersPath + "default.vert", settings::shadersPath + "default.frag"),
+    noLightShader(settings::shadersPath + "noLight.vert", settings::shadersPath + "noLight.frag"),
     camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
@@ -18,15 +19,15 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Sun
     planetTextures.emplace_back(settings::texturesPath + "sun.jpg");
     planets.emplace_back(0.f, settings::sunScale, 0.f, settings::sunRotationSpeed);
+    //Earth
+    planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
+    planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
     //Mercury
     planetTextures.emplace_back(settings::texturesPath + "mercury.jpg");
     planets.emplace_back(settings::mercuryOrbitRadius, settings::mercuryScale, settings::mercuryOrbitSpeed, settings::mercuryRotationSpeed);
     //Venus
     planetTextures.emplace_back(settings::texturesPath + "venus.jpg");
     planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, settings::venusRotationSpeed);
-    //Earth
-    planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
-    planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
     //Mars
     planetTextures.emplace_back(settings::texturesPath + "mars.jpg");
     planets.emplace_back(settings::marsOrbitRadius, settings::marsScale, settings::marsOrbitSpeed, settings::marsRotationSpeed);
@@ -140,19 +141,24 @@ void Game::Draw(float deltatime)
     unsigned int MVPUniform = defaultShader.GetUniformID("MVP");
     unsigned int modelMatrixUniform = defaultShader.GetUniformID("modelMatrix");
     unsigned int normalMatrixUniform = defaultShader.GetUniformID("normalMatrix");
-    //Draw the planets
-    for (size_t i = 0; i < planets.size(); ++i)
+    //Draw the planets except for the sun.
+    for (size_t i = 1; i < planets.size(); ++i)
     {
         defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
         defaultShader.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
         defaultShader.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
+
+    //Draw the sun and the skybox without lighting.
+    window.UseShader(noLightShader);
+    MVPUniform = noLightShader.GetUniformID("MVP");
+    //Draw sun.
+    defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[0].GetModelMatrix());
+    window.DrawActor(sphereMesh, planetTextures[0]);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
     defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
-    defaultShader.SendUniform<glm::mat4>(modelMatrixUniform, skyBox.GetModelMatrix());
-    defaultShader.SendUniform<glm::mat4>(normalMatrixUniform, skyBox.GetNormalMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
 
 }
