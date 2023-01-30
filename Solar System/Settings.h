@@ -11,6 +11,7 @@ namespace settings
 
 	//Simulation settings.
 	//Lighting.
+	inline constexpr glm::vec3 sunlightColor = {1.f,1.f,1.f};
 	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};
 	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};
 	//Radiuses.

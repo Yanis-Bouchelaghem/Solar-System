@@ -49,9 +49,11 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     window.UseShader(defaultShader);
     defaultShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     defaultShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
+    defaultShader.SendUniform<glm::vec3>("sunlightColor", settings::sunlightColor);
     window.UseShader(earthShader);
     earthShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     earthShader.SendUniform<glm::vec3>("ambientColor", settings::earthAmbientColor);
+    earthShader.SendUniform<glm::vec3>("sunlightColor", settings::sunlightColor);
     earthShader.SendUniform<int>("textureSampler1", 0);
     earthShader.SendUniform<int>("textureSampler2", 1);
 }
@@ -155,6 +157,7 @@ void Game::Draw(float deltatime)
     earthShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[1].GetModelMatrix());
     earthShader.SendUniform<glm::mat4>("modelMatrix", planets[1].GetModelMatrix());
     earthShader.SendUniform<glm::mat3>("normalMatrix", planets[1].GetNormalMatrix());
+    //TODO:earthShader.SendUniform<glm::vec3>("viewposition", camera.GetPosition());
     window.DrawActor(sphereMesh, planetTextures[1], earthNightTexture);
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);
