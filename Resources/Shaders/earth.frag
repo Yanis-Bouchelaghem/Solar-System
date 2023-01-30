@@ -6,16 +6,15 @@ in vec3 fragmentPosition;
 
 out vec4 FragColor;
 
+uniform vec3 ambientColor;
+uniform vec3 lightPosition;
 uniform sampler2D textureSampler1;
 uniform sampler2D textureSampler2;
-
-uniform vec3 ambientColor;
-uniform vec3 lightPos;
 
 void main()
 {
     vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(lightPos - fragmentPosition);  
+    vec3 lightDir = normalize(lightPosition - fragmentPosition);  
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * vec3(1.0,1.0,1.0);
 

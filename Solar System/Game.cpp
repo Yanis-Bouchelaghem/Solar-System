@@ -47,13 +47,13 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
     //Setup the lighting in the shaders.
     window.UseShader(defaultShader);
-    defaultShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    defaultShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     defaultShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
     window.UseShader(earthShader);
-    earthShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<glm::vec3>("ambientColor", settings::earthAmbientColor);
     earthShader.SendUniform<int>("textureSampler1", 0);
     earthShader.SendUniform<int>("textureSampler2", 1);
-    earthShader.SendUniform<glm::vec3>("ambientColor", settings::earthAmbientColor);
 }
 
 void Game::Tick()
