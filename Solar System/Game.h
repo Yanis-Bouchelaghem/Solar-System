@@ -22,7 +22,8 @@ private:
 private:
 	Window window;	//Window must be constructed first, it initializes OpenGL context and GLFW window.
 private:
-	ShaderProgram shaderProgram;
+	ShaderProgram defaultShader;
+	//ShaderProgram noLightShader;
 	Camera camera;
 	Mesh sphereMesh;
 	std::vector<Texture> planetTextures;

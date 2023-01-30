@@ -4,7 +4,7 @@
 Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
-    shaderProgram(settings::shadersPath + "VertexShader.vert", settings::shadersPath + "FragmentShader.frag"),
+    defaultShader(settings::shadersPath + "default.vert", settings::shadersPath + "default.frag"),
     camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
@@ -43,11 +43,11 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
     //Setup the lighting.
-    window.UseShader(shaderProgram);
-    unsigned int lightPositionUniform = shaderProgram.GetUniformID("lightPos");
-    unsigned int ambientColorUniform = shaderProgram.GetUniformID("ambientColor");
-    shaderProgram.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
-    shaderProgram.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
+    window.UseShader(defaultShader);
+    unsigned int lightPositionUniform = defaultShader.GetUniformID("lightPos");
+    unsigned int ambientColorUniform = defaultShader.GetUniformID("ambientColor");
+    defaultShader.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
+    defaultShader.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
 }
 
 void Game::Tick()
@@ -136,23 +136,23 @@ void Game::Draw(float deltatime)
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
 
-    window.UseShader(shaderProgram);
-    unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
-    unsigned int modelMatrixUniform = shaderProgram.GetUniformID("modelMatrix");
-    unsigned int normalMatrixUniform = shaderProgram.GetUniformID("normalMatrix");
+    window.UseShader(defaultShader);
+    unsigned int MVPUniform = defaultShader.GetUniformID("MVP");
+    unsigned int modelMatrixUniform = defaultShader.GetUniformID("modelMatrix");
+    unsigned int normalMatrixUniform = defaultShader.GetUniformID("normalMatrix");
     //Draw the planets
     for (size_t i = 0; i < planets.size(); ++i)
     {
-        shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
-        shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
-        shaderProgram.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
+        defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform, skyBox.GetModelMatrix());
-    shaderProgram.SendUniform<glm::mat4>(normalMatrixUniform, skyBox.GetNormalMatrix());
+    defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
+    defaultShader.SendUniform<glm::mat4>(modelMatrixUniform, skyBox.GetModelMatrix());
+    defaultShader.SendUniform<glm::mat4>(normalMatrixUniform, skyBox.GetNormalMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
 
 }
