@@ -76,10 +76,10 @@ ShaderProgram::~ShaderProgram() noexcept
     glDeleteProgram(shaderProgramID);
 }
 
-unsigned int ShaderProgram::GetUniformID(const char* uniformName) const
+unsigned int ShaderProgram::GetUniformID(std::string uniformName) const
 {
-    assert(glGetUniformLocation(shaderProgramID, uniformName) != -1); //If assertion triggers: Uniform does not exist in current shader program.
-    return glGetUniformLocation(shaderProgramID, uniformName);
+    assert(glGetUniformLocation(shaderProgramID, uniformName.c_str()) != -1); //If assertion triggers: Uniform does not exist in current shader program.
+    return glGetUniformLocation(shaderProgramID, uniformName.c_str());
 }
 
 unsigned int ShaderProgram::GetID() const

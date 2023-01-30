@@ -46,15 +46,11 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
     //Setup the lighting in the shaders.
     window.UseShader(defaultShader);
-    unsigned int lightPositionUniform = defaultShader.GetUniformID("lightPos");
-    unsigned int ambientColorUniform = defaultShader.GetUniformID("ambientColor");
-    defaultShader.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
-    defaultShader.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
+    defaultShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    defaultShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
     window.UseShader(earthShader);
-    lightPositionUniform = earthShader.GetUniformID("lightPos");
-    ambientColorUniform = earthShader.GetUniformID("ambientColor");
-    earthShader.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
-    earthShader.SendUniform<glm::vec3>(lightPositionUniform, { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
 }
 
 void Game::Tick()
@@ -144,35 +140,26 @@ void Game::Draw(float deltatime)
     glm::mat4 viewMatrix = camera.GetViewMatrix();
     //Draw the planets except for the sun and the earth with the default shader (normal lighting).
     window.UseShader(defaultShader);
-    unsigned int MVPUniform = defaultShader.GetUniformID("MVP");
-    unsigned int modelMatrixUniform = defaultShader.GetUniformID("modelMatrix");
-    unsigned int normalMatrixUniform = defaultShader.GetUniformID("normalMatrix");
     for (size_t i = 2; i < planets.size(); ++i)
     {
-        defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
-        defaultShader.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
-        defaultShader.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
+        defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat4>("modelMatrix", planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat3>("normalMatrix", planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
     //Draw the earth using its own shader.
     window.UseShader(earthShader);
-    MVPUniform = earthShader.GetUniformID("MVP");
-    modelMatrixUniform = earthShader.GetUniformID("modelMatrix");
-    normalMatrixUniform = earthShader.GetUniformID("normalMatrix");
-    earthShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[1].GetModelMatrix());
-    earthShader.SendUniform<glm::mat4>(modelMatrixUniform, planets[1].GetModelMatrix());
-    earthShader.SendUniform<glm::mat3>(normalMatrixUniform, planets[1].GetNormalMatrix());
+    earthShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat4>("modelMatrix", planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat3>("normalMatrix", planets[1].GetNormalMatrix());
     window.DrawActor(sphereMesh, planetTextures[1]);
-
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);
-    MVPUniform = noLightShader.GetUniformID("MVP");
     //Draw sun.
-    defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[0].GetModelMatrix());
+    defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[0].GetModelMatrix());
     window.DrawActor(sphereMesh, planetTextures[0]);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
-    defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
+    defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * skyBox.GetModelMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
-
 }
