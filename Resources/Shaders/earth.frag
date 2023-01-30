@@ -14,11 +14,11 @@ uniform sampler2D textureSampler2;
 
 void main()
 {
-    vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(lightPosition - fragmentPosition);  
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * sunlightColor;
+    vec3 normalizedNormal = normalize(normal);
+    vec3 lightDirection = normalize(lightPosition - fragmentPosition);  
+    float diffuseStrength = max(dot(normalizedNormal, lightDirection), 0.0);
+    vec3 diffuseColor = diffuseStrength * sunlightColor;
 
-    FragColor = vec4(ambientColor + diffuse,1.0) * mix(texture(textureSampler2, textureCoordinate), texture(textureSampler1, textureCoordinate), diff);
+    FragColor = vec4(ambientColor + diffuseColor,1.0) * mix(texture(textureSampler2, textureCoordinate), texture(textureSampler1, textureCoordinate), diffuseStrength);
 }
 
