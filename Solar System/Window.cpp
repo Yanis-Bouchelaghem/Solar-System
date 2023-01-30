@@ -69,6 +69,16 @@ void Window::DrawActor(const Mesh& mesh, const Texture& texture)
     glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
 }
 
+void Window::DrawActor(const Mesh& mesh, const Texture& texture1, const Texture& texture2)
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture1.GetID());
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2.GetID());
+    glBindVertexArray(mesh.GetVAO());
+    glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
+}
+
 void Window::DrawActor(const Mesh& mesh, const Texture& texture, const ShaderProgram& shaderProgram)
 {
     UseShader(shaderProgram);

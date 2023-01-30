@@ -37,9 +37,9 @@ public:
 		glUniform3fv(GetUniformID(uniformName), 1, &value[0]);
 	}
 	template<>
-	void SendUniform<unsigned int>(std::string uniformName, const unsigned int& value) //Send an unsigned integer.
+	void SendUniform<int>(std::string uniformName, const int& value) //Send an integer.
 	{
-		glUniform1ui(GetUniformID(uniformName), value);
+		glUniform1i(GetUniformID(uniformName), value);
 	}
 private:
 	unsigned int GetUniformID(std::string uniformName) const;	//Returns the identifier of the given uniform.
