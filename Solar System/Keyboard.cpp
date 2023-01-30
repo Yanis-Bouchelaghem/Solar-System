@@ -29,5 +29,6 @@ bool Keyboard::IsKeyPressedOnce(int key)
 	else
 	{
 		keyPressed[key] = false;
+		return false;
 	}
 }

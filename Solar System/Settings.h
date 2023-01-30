@@ -12,6 +12,7 @@ namespace settings
 	//Simulation settings.
 	//Lighting.
 	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};
+	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};
 	//Radiuses.
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
 	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
@@ -34,7 +35,7 @@ namespace settings
 	inline constexpr float neptuneScale = earthScale * 2.3f;
 
 	//Orbit speeds (in degrees per second).
-	inline constexpr float earthOrbitSpeed = 20.f;	//The number of degrees the earth should travel around its orbit every second (other planet's orbit speeds are adjusted based on this value).
+	inline constexpr float earthOrbitSpeed = 0.f;	//The number of degrees the earth should travel around its orbit every second (other planet's orbit speeds are adjusted based on this value).
 	inline constexpr float mercuryOrbitSpeed = earthOrbitSpeed * 4.149f;
 	inline constexpr float venusOrbitSpeed = earthOrbitSpeed * 1.623f;
 	inline constexpr float marsOrbitSpeed = earthOrbitSpeed * 0.531f;
@@ -93,7 +94,7 @@ namespace settings
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
 	inline constexpr float cameraFarPlaneDistance = 10000.0f;//The distance of the far plane from the camera.
 	inline constexpr float cameraMaxPitch = 70.0f;			//Sets the camera's maximum pitch (when looking up and down).
-	inline constexpr float cameraSpeedupRate = 50.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
+	inline constexpr float cameraSpeedupRate = 10.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
 
 	//Precalculate some values for convenience.
 	inline constexpr float screenRatio = float(windowWidth) / float(windowHeight);
