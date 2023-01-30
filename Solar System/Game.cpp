@@ -13,6 +13,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     sphereMesh(settings::meshesPath + "sphere.obj"),
     earthNightTexture(settings::texturesPath + "earth_night.jpg"),
     earthSpecularTexture(settings::texturesPath + "earth_specular.jpg"),
+    earthCloudsTexture(settings::texturesPath + "earth_clouds.jpg"),
     skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
@@ -60,6 +61,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     earthShader.SendUniform<int>("textureEarth", 0); //Assign locations to the texture samplers.
     earthShader.SendUniform<int>("textureEarthNight", 1);
     earthShader.SendUniform<int>("textureSpecular", 2);
+    earthShader.SendUniform<int>("textureClouds", 3);
 }
 
 void Game::Tick()
@@ -162,7 +164,7 @@ void Game::Draw(float deltatime)
     earthShader.SendUniform<glm::mat4>("modelMatrix", planets[1].GetModelMatrix());
     earthShader.SendUniform<glm::mat3>("normalMatrix", planets[1].GetNormalMatrix());
     earthShader.SendUniform<glm::vec3>("viewPosition", camera.GetPosition());
-    window.DrawActor(sphereMesh, planetTextures[1], earthNightTexture, earthSpecularTexture);
+    window.DrawActor(sphereMesh, planetTextures[1], earthNightTexture, earthSpecularTexture, earthCloudsTexture);
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);
     //Draw sun.

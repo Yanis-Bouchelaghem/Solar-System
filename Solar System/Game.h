@@ -31,6 +31,7 @@ private:
 	std::vector<Planet> planets;
 	Texture earthNightTexture;
 	Texture earthSpecularTexture;
+	Texture earthCloudsTexture;
 	Actor skyBox;
 	Texture skyboxTexture;
 	glm::vec2 lastMousePosition;

@@ -15,6 +15,7 @@ uniform float specularShininess;
 uniform sampler2D textureEarth;
 uniform sampler2D textureEarthNight;
 uniform sampler2D textureSpecular;
+uniform sampler2D textureClouds;
 
 void main()
 {
@@ -32,8 +33,10 @@ void main()
 
     //Calculate the day/night texture mix.
     vec4 dayNightMix = mix(texture(textureEarthNight, textureCoordinate), texture(textureEarth, textureCoordinate), diffuseStrength);
-    
+    //Add the clouds texture.
+    vec4 finalMix = dayNightMix + (0.3 * texture(textureClouds, textureCoordinate));
+
     //Calculate the final color (ambient + diffuse + specular).
-    FragColor = vec4(ambientColor + diffuseColor + specularColor, 1.0) * dayNightMix;
+    FragColor = vec4(ambientColor + diffuseColor + specularColor, 1.0) * finalMix;
 }
 
