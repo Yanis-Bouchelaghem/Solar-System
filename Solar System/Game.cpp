@@ -12,6 +12,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
     sphereMesh(settings::meshesPath + "sphere.obj"),
     earthNightTexture(settings::texturesPath + "earth_night.jpg"),
+    earthSpecularTexture(settings::texturesPath + "earth_specular.jpg"),
     skyboxTexture(settings::texturesPath + "stars_milkyway.jpg")
 {
     lastMousePosition = window.GetMousePosition();
