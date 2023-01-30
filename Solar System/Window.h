@@ -19,6 +19,7 @@ public:
 	void UseShader(const ShaderProgram& shaderProgram);	//Binds the given shader.
 	void DrawActor(const Mesh& mesh, const Texture& texture);	//Draws actor with the given mesh and texture.
 	void DrawActor(const Mesh& mesh, const Texture& texture1, const Texture& texture2);	//Draws actor with the given mesh and textures.
+	void DrawActor(const Mesh& mesh, const Texture& texture1, const Texture& texture2, const Texture& texture3);	//Draws actor with the given mesh and textures.
 	void DrawActor(const Mesh& mesh, const Texture& texture, const ShaderProgram& shaderProgram); //Binds the given shader, then draws actor.
 	void ClearBuffers();				//Clears the color and depth buffers.
 	void SwapBuffers();					//Swaps the buffers to display a frame.

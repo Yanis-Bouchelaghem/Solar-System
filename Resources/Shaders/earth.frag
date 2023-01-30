@@ -13,6 +13,7 @@ uniform vec3 viewPosition;
 uniform float specularStrength;
 uniform sampler2D textureEarth;
 uniform sampler2D textureEarthNight;
+uniform sampler2D textureSpecular;
 
 void main()
 {
@@ -26,7 +27,7 @@ void main()
     vec3 viewDir = normalize(viewPosition - fragmentPosition);
     vec3 reflectDir = reflect(-lightDirection, normalizedNormal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specularColor = specularStrength * spec * sunlightColor; 
+    vec3 specularColor = (specularStrength * spec * sunlightColor) * vec3(texture(textureSpecular, textureCoordinate)); 
 
     //Calculate the day/night texture mix.
     vec4 dayNightMix = mix(texture(textureEarthNight, textureCoordinate), texture(textureEarth, textureCoordinate), diffuseStrength);
