@@ -138,7 +138,7 @@ void Game::Draw(float deltatime)
     //Drawing happens here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
-    //Draw the planets except for the sun and the earth with the default shader (normal lighting).
+    //Draw the planets (except for the sun and the earth) using the default shader (normal lighting).
     window.UseShader(defaultShader);
     for (size_t i = 2; i < planets.size(); ++i)
     {
@@ -156,10 +156,10 @@ void Game::Draw(float deltatime)
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);
     //Draw sun.
-    defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[0].GetModelMatrix());
+    noLightShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[0].GetModelMatrix());
     window.DrawActor(sphereMesh, planetTextures[0]);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
-    defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * skyBox.GetModelMatrix());
+    noLightShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * skyBox.GetModelMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
 }
