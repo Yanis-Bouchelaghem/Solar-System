@@ -6,6 +6,7 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
     defaultShader(settings::shadersPath + "default.vert", settings::shadersPath + "default.frag"),
     noLightShader(settings::shadersPath + "noLight.vert", settings::shadersPath + "noLight.frag"),
+    earthShader(settings::shadersPath + "earth.vert", settings::shadersPath + "earth.frag"),
     camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
@@ -43,12 +44,17 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
-    //Setup the lighting.
+    //Setup the lighting in the shaders.
     window.UseShader(defaultShader);
     unsigned int lightPositionUniform = defaultShader.GetUniformID("lightPos");
     unsigned int ambientColorUniform = defaultShader.GetUniformID("ambientColor");
     defaultShader.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
     defaultShader.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
+    window.UseShader(earthShader);
+    lightPositionUniform = earthShader.GetUniformID("lightPos");
+    ambientColorUniform = earthShader.GetUniformID("ambientColor");
+    earthShader.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
+    earthShader.SendUniform<glm::vec3>(lightPositionUniform, { 0.0f,0.0f,0.0f });
 }
 
 void Game::Tick()
@@ -136,19 +142,27 @@ void Game::Draw(float deltatime)
     //Drawing happens here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
-
+    //Draw the planets except for the sun and the earth with the default shader (normal lighting).
     window.UseShader(defaultShader);
     unsigned int MVPUniform = defaultShader.GetUniformID("MVP");
     unsigned int modelMatrixUniform = defaultShader.GetUniformID("modelMatrix");
     unsigned int normalMatrixUniform = defaultShader.GetUniformID("normalMatrix");
-    //Draw the planets except for the sun.
-    for (size_t i = 1; i < planets.size(); ++i)
+    for (size_t i = 2; i < planets.size(); ++i)
     {
         defaultShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
         defaultShader.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
         defaultShader.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
+    //Draw the earth using its own shader.
+    window.UseShader(earthShader);
+    MVPUniform = earthShader.GetUniformID("MVP");
+    modelMatrixUniform = earthShader.GetUniformID("modelMatrix");
+    normalMatrixUniform = earthShader.GetUniformID("normalMatrix");
+    earthShader.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat4>(modelMatrixUniform, planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat3>(normalMatrixUniform, planets[1].GetNormalMatrix());
+    window.DrawActor(sphereMesh, planetTextures[1]);
 
     //Draw the sun and the skybox without lighting.
     window.UseShader(noLightShader);

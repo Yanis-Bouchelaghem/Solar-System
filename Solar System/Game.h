@@ -24,6 +24,7 @@ private:
 private:
 	ShaderProgram defaultShader;
 	ShaderProgram noLightShader;
+	ShaderProgram earthShader;
 	Camera camera;
 	Mesh sphereMesh;
 	std::vector<Texture> planetTextures;

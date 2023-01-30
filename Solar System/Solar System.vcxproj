@@ -186,6 +186,8 @@
   <ItemGroup>
     <None Include="..\Resources\Shaders\default.frag" />
     <None Include="..\Resources\Shaders\default.vert" />
+    <None Include="..\Resources\Shaders\earth.frag" />
+    <None Include="..\Resources\Shaders\earth.vert" />
     <None Include="..\Resources\Shaders\noLight.frag" />
     <None Include="..\Resources\Shaders\noLight.vert" />
   </ItemGroup>
