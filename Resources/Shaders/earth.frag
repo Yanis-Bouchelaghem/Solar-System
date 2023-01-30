@@ -11,8 +11,8 @@ uniform vec3 sunlightColor;
 uniform vec3 lightPosition;
 uniform vec3 viewPosition;
 uniform float specularStrength;
-uniform sampler2D textureSampler1;
-uniform sampler2D textureSampler2;
+uniform sampler2D textureEarth;
+uniform sampler2D textureEarthNight;
 
 void main()
 {
@@ -26,7 +26,12 @@ void main()
     vec3 viewDir = normalize(viewPosition - fragmentPosition);
     vec3 reflectDir = reflect(-lightDirection, normalizedNormal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specularColor = specularStrength * spec * sunlightColor;  
-    FragColor = vec4(ambientColor + diffuseColor + specularColor, 1.0) * mix(texture(textureSampler2, textureCoordinate), texture(textureSampler1, textureCoordinate), diffuseStrength);
+    vec3 specularColor = specularStrength * spec * sunlightColor; 
+
+    //Calculate the day/night texture mix.
+    vec4 dayNightMix = mix(texture(textureEarthNight, textureCoordinate), texture(textureEarth, textureCoordinate), diffuseStrength);
+    
+    //Calculate the final color (ambient + diffuse + specular).
+    FragColor = vec4(ambientColor + diffuseColor + specularColor, 1.0) * dayNightMix;
 }
 

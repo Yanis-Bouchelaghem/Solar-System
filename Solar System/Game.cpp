@@ -55,8 +55,8 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     earthShader.SendUniform<glm::vec3>("sunlightColor", settings::sunlightColor);
     earthShader.SendUniform<glm::vec3>("lightPosition", { 0.0f,0.0f,0.0f });
     earthShader.SendUniform<float>("specularStrength", settings::earthSpecularStrength);
-    earthShader.SendUniform<int>("textureSampler1", 0); //Assign locations to the texture samplers.
-    earthShader.SendUniform<int>("textureSampler2", 1);
+    earthShader.SendUniform<int>("textureEarth", 0); //Assign locations to the texture samplers.
+    earthShader.SendUniform<int>("textureEarthNight", 1);
 }
 
 void Game::Tick()
