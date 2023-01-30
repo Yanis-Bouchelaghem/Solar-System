@@ -4,7 +4,9 @@
 Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int viewportWidth, int viewportHeight, const std::string title, GLFWmonitor* monitor, GLFWwindow* share)
     :
     window(windowWidth, windowHeight, viewportX, viewportY, viewportWidth, viewportHeight, title, monitor, share),
-    shaderProgram(settings::shadersPath + "VertexShader.vert", settings::shadersPath + "FragmentShader.frag"),
+    defaultShader(settings::shadersPath + "default.vert", settings::shadersPath + "default.frag"),
+    noLightShader(settings::shadersPath + "noLight.vert", settings::shadersPath + "noLight.frag"),
+    earthShader(settings::shadersPath + "earth.vert", settings::shadersPath + "earth.frag"),
     camera(settings::cameraInitialPosition, settings::cameraSpeed, settings::cameraYaw,
         settings::cameraPitch, settings::cameraMaxPitch, settings::cameraSensitivity, settings::cameraFOV,
         settings::screenRatio, settings::cameraNearPlaneDistance, settings::cameraFarPlaneDistance),
@@ -18,15 +20,15 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Sun
     planetTextures.emplace_back(settings::texturesPath + "sun.jpg");
     planets.emplace_back(0.f, settings::sunScale, 0.f, settings::sunRotationSpeed);
+    //Earth
+    planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
+    planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
     //Mercury
     planetTextures.emplace_back(settings::texturesPath + "mercury.jpg");
     planets.emplace_back(settings::mercuryOrbitRadius, settings::mercuryScale, settings::mercuryOrbitSpeed, settings::mercuryRotationSpeed);
     //Venus
     planetTextures.emplace_back(settings::texturesPath + "venus.jpg");
     planets.emplace_back(settings::venusOrbitRadius, settings::venusScale, settings::venusOrbitSpeed, settings::venusRotationSpeed);
-    //Earth
-    planetTextures.emplace_back(settings::texturesPath + "earth.jpg");
-    planets.emplace_back(settings::earthOrbitRadius, settings::earthScale, settings::earthOrbitSpeed, settings::earthRotationSpeed);
     //Mars
     planetTextures.emplace_back(settings::texturesPath + "mars.jpg");
     planets.emplace_back(settings::marsOrbitRadius, settings::marsScale, settings::marsOrbitSpeed, settings::marsRotationSpeed);
@@ -42,12 +44,13 @@ Game::Game(int windowWidth, int windowHeight, int viewportX, int viewportY, int 
     //Neptune
     planetTextures.emplace_back(settings::texturesPath + "neptune.jpg");
     planets.emplace_back(settings::neptuneOrbitRadius, settings::neptuneScale, settings::neptuneOrbitSpeed, settings::neptuneRotationSpeed);
-    //Setup the lighting.
-    window.UseShader(shaderProgram);
-    unsigned int lightPositionUniform = shaderProgram.GetUniformID("lightPos");
-    unsigned int ambientColorUniform = shaderProgram.GetUniformID("ambientColor");
-    shaderProgram.SendUniform<glm::vec3>(ambientColorUniform, settings::ambientColor);
-    shaderProgram.SendUniform<glm::vec3>(lightPositionUniform, {0.0f,0.0f,0.0f});
+    //Setup the lighting in the shaders.
+    window.UseShader(defaultShader);
+    defaultShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    defaultShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
+    window.UseShader(earthShader);
+    earthShader.SendUniform<glm::vec3>("lightPos", { 0.0f,0.0f,0.0f });
+    earthShader.SendUniform<glm::vec3>("ambientColor", settings::ambientColor);
 }
 
 void Game::Tick()
@@ -135,24 +138,28 @@ void Game::Draw(float deltatime)
     //Drawing happens here.
     glm::mat4 projection = camera.GetPerspectiveMatrix();
     glm::mat4 viewMatrix = camera.GetViewMatrix();
-
-    window.UseShader(shaderProgram);
-    unsigned int MVPUniform = shaderProgram.GetUniformID("MVP");
-    unsigned int modelMatrixUniform = shaderProgram.GetUniformID("modelMatrix");
-    unsigned int normalMatrixUniform = shaderProgram.GetUniformID("normalMatrix");
-    //Draw the planets
-    for (size_t i = 0; i < planets.size(); ++i)
+    //Draw the planets (except for the sun and the earth) using the default shader (normal lighting).
+    window.UseShader(defaultShader);
+    for (size_t i = 2; i < planets.size(); ++i)
     {
-        shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * planets[i].GetModelMatrix());
-        shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform,planets[i].GetModelMatrix());
-        shaderProgram.SendUniform<glm::mat3>(normalMatrixUniform,planets[i].GetNormalMatrix());
+        defaultShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat4>("modelMatrix", planets[i].GetModelMatrix());
+        defaultShader.SendUniform<glm::mat3>("normalMatrix", planets[i].GetNormalMatrix());
         window.DrawActor(sphereMesh, planetTextures[i]);
     }
+    //Draw the earth using its own shader.
+    window.UseShader(earthShader);
+    earthShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat4>("modelMatrix", planets[1].GetModelMatrix());
+    earthShader.SendUniform<glm::mat3>("normalMatrix", planets[1].GetNormalMatrix());
+    window.DrawActor(sphereMesh, planetTextures[1]);
+    //Draw the sun and the skybox without lighting.
+    window.UseShader(noLightShader);
+    //Draw sun.
+    noLightShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * planets[0].GetModelMatrix());
+    window.DrawActor(sphereMesh, planetTextures[0]);
     //Draw skybox.
     viewMatrix = glm::mat4(glm::mat3(viewMatrix));//Remove the translation from the view matrix, we do not want our skybox to move around.
-    shaderProgram.SendUniform<glm::mat4>(MVPUniform, projection * viewMatrix * skyBox.GetModelMatrix());
-    shaderProgram.SendUniform<glm::mat4>(modelMatrixUniform, skyBox.GetModelMatrix());
-    shaderProgram.SendUniform<glm::mat4>(normalMatrixUniform, skyBox.GetNormalMatrix());
+    noLightShader.SendUniform<glm::mat4>("MVP", projection * viewMatrix * skyBox.GetModelMatrix());
     window.DrawActor(sphereMesh, skyboxTexture);
-
 }
