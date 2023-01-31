@@ -38,7 +38,7 @@ namespace settings
 	inline constexpr float neptuneScale = earthScale * 2.3f;
 
 	//Orbit speeds (in degrees per second).
-	inline constexpr float earthOrbitSpeed = 0.f;	//The number of degrees the earth should travel around its orbit every second (other planet's orbit speeds are adjusted based on this value).
+	inline constexpr float earthOrbitSpeed = 20.f;	//The number of degrees the earth should travel around its orbit every second (other planet's orbit speeds are adjusted based on this value).
 	inline constexpr float mercuryOrbitSpeed = earthOrbitSpeed * 4.149f;
 	inline constexpr float venusOrbitSpeed = earthOrbitSpeed * 1.623f;
 	inline constexpr float marsOrbitSpeed = earthOrbitSpeed * 0.531f;
@@ -96,7 +96,7 @@ namespace settings
 	inline constexpr float cameraFOV = 45.0f;				//The field of view.
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
 	inline constexpr float cameraFarPlaneDistance = 10000.0f;//The distance of the far plane from the camera.
-	inline constexpr float cameraMaxPitch = 70.0f;			//Sets the camera's maximum pitch (when looking up and down).
+	inline constexpr float cameraMaxPitch = 89.0f;			//Sets the camera's maximum pitch (when looking up and down).
 	inline constexpr float cameraSpeedupRate = 10.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
 
 	//Precalculate some values for convenience.
