@@ -115,11 +115,11 @@ void Game::Update(float deltatime)
         window.ToggleWireframe();
     }
     //Update camera speed.
-    if (window.IsKeyPressedOnce(settings::cameraSpeedupKey))
+    if (window.IsKeyPressed(settings::cameraSpeedupKey))
     {
         camera.AddMovementSpeed(settings::cameraSpeedupRate);
     }
-    if (window.IsKeyPressedOnce(settings::cameraSlowdownKey))
+    if (window.IsKeyPressed(settings::cameraSlowdownKey))
     {
         camera.AddMovementSpeed(-settings::cameraSpeedupRate);
     }
