@@ -14,8 +14,8 @@ namespace settings
 	inline constexpr glm::vec3 sunlightColor = {1.f,1.f,1.f};//The color that the sun casts on the planets.
 	inline constexpr glm::vec3 ambientColor = {0.05f,0.05f,0.05f};//The ambient color of all planets (except earth).
 	inline constexpr glm::vec3 earthAmbientColor = {0.7f,0.7f,0.7f};//The ambient color of the earth.
-	inline constexpr float earthSpecularStrength = 3.5f;//Controls the strength of the specular of the ware's surface of earth.
-	inline constexpr float earthSpecularShininess = 16;	//Controls the shininess of the water's surface of earth (powers of 2).
+	inline constexpr float earthSpecularStrength = 1.5f;//Controls the strength of the specular of the ware's surface of earth.
+	inline constexpr float earthSpecularShininess = 4;	//Controls the shininess of the water's surface of earth (powers of 2).
 	//Radiuses.
 	inline constexpr float earthOrbitRadius = 300.0f;		//The radius of the earth around the sun (other planet's radiuses are scaled based on this value).
 	inline constexpr float mercuryOrbitRadius = earthOrbitRadius * 0.6f;
@@ -97,7 +97,7 @@ namespace settings
 	inline constexpr float cameraNearPlaneDistance = 0.3f;	//The distance of the near plane from the camera.
 	inline constexpr float cameraFarPlaneDistance = 10000.0f;//The distance of the far plane from the camera.
 	inline constexpr float cameraMaxPitch = 89.0f;			//Sets the camera's maximum pitch (when looking up and down).
-	inline constexpr float cameraSpeedupRate = 10.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
+	inline constexpr float cameraSpeedupRate = 1.0f;		//The amount of speed that gets added/subtracted when the camera speeds up or slows down.
 
 	//Precalculate some values for convenience.
 	inline constexpr float screenRatio = float(windowWidth) / float(windowHeight);
