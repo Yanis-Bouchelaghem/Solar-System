@@ -51,6 +51,7 @@ The sun and the skybox are rendered using a very simple shader with no lighting 
 - OpenGL 3.3 (or later)
 - [GLFW](https://github.com/glfw/glfw) 3.3 (or later)
 - [GLM](https://github.com/Dav1dde/glad)
+- [stb_image](https://github.com/nothings/stb)
   
 All of the dependencies are already included in the repository and are statically linked with the Visual Studio project.
 
